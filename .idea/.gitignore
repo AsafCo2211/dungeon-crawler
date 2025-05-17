@@ -1,0 +1,28 @@
+# === IDEs ===
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# === Build output ===
+out/
+target/
+build/
+*.class
+*.jar
+bin/
+obj/
+
+# === System files ===
+.DS_Store
+Thumbs.db
+
+# === Temporary files ===
+shelf/
+workspace.xml
