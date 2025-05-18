@@ -43,6 +43,10 @@ public abstract class Unit extends Tile {
 
     public int getCurrentHealth() { return currentHealth; }
 
+    public void setHealthPool(int newHealthPool){ this.healthPool = newHealthPool; }
+
+    public void setCurrentHealth(int health){ this.currentHealth = health; }
+
     public int getAttack() { return attack; }
 
     public int getDefense() { return defense; }
@@ -70,5 +74,9 @@ public abstract class Unit extends Tile {
      *
      * @return A string describing the unit
      */
-    public abstract String description();
+    public String description() {
+        return String.format("%s\tHP: %d/%d\tAttack: %d\tDefense: %d",
+                name, currentHealth, healthPool, attack, defense);
+    }
+
 }
