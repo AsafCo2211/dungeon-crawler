@@ -26,3 +26,12 @@ Thumbs.db
 # === Temporary files ===
 shelf/
 workspace.xml
+
+# IntelliJ & macOS system files
+.idea/
+.DS_Store
+
+# Build output
+out/
+*.class
+
