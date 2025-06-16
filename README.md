@@ -24,11 +24,36 @@ as part of **HW3 in the Object-Oriented Software Design (OOSD)** course at Ben-G
 ---
 
 ## 🧱 Current Structure
-```bash
+```
 DungeonsAndDragons-OOP/
-├── src/
-│   └── game/
-│        └── Main.java         ← Initial main class (empty)
-├── README.md                  ← You're reading this
 ├── .gitignore
-└── (additional folders coming soon: tiles/, units/, enemies/, cli/, tests/)
+├── README.md
+└── src/
+    ├── cli/
+    │   ├── CLI.java
+    │   └── InputHandler.java
+    ├── game/
+    │   ├── Board.java
+    │   ├── Game.java
+    │   └── GameManager.java
+    ├── messages/
+    │   └── Message.java
+    ├── tests/
+    │   └── (unit tests)
+    ├── tiles/
+    │   ├── Empty.java
+    │   ├── Position.java
+    │   ├── Tile.java
+    │   └── Wall.java
+    └── units/
+        ├── Boss.java
+        ├── Enemy.java
+        ├── HeroicUnit.java
+        ├── Hunter.java
+        ├── Mage.java
+        ├── Monster.java
+        ├── Player.java
+        ├── Rogue.java
+        ├── Trap.java
+        ├── Unit.java
+        └── Warrior.java

@@ -1,4 +1,4 @@
-package game.tiles;
+package tiles;
 
 /**
  * Represents an empty tile (walkable space) on the game board.

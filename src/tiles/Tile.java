@@ -1,4 +1,4 @@
-package game.tiles;
+package tiles;
 
 /**
  * Represents a generic tile on the game board.
