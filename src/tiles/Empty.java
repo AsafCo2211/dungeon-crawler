@@ -11,6 +11,6 @@ public class Empty extends Tile {
      * @param position The position of the tile
      */
     public Empty(Position position) {
-        super('.', position);
+        super(position, '.');
     }
 }
