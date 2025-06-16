@@ -1,4 +1,5 @@
 package units;
 
-public class HeroicUnit {
+public interface HeroicUnit {
+    void castAbility();
 }
