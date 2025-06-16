@@ -39,6 +39,10 @@ public abstract class Tile {
         this.position = position;
     }
 
+    public char getTileChar() { return tileChar; }
+
+    public abstract void accept(TileVisitor visitor);
+
     /**
      * Returns the character that represents the tile when printed.
      *
