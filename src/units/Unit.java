@@ -1,7 +1,7 @@
-package game.units;
+package units;
 
-import game.tiles.Position;
-import game.tiles.Tile;
+import tiles.Position;
+import tiles.Tile;
 
 import java.util.Random;
 

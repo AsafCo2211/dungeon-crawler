@@ -1,4 +1,4 @@
-package game.tiles;
+package tiles;
 
 /**
  * Represents a position on the game board.

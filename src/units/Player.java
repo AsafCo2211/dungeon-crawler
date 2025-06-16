@@ -1,6 +1,6 @@
-package game.units;
+package units;
 
-import game.tiles.Position;
+import tiles.Position;
 
 public abstract class Player extends Unit {
     protected int experience;
