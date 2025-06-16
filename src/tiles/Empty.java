@@ -1,6 +1,16 @@
 package tiles;
 
+/**
+ * Represents an empty tile (walkable space) on the game board.
+ */
 public class Empty extends Tile {
-    public Empty(Position pos) { super(pos, '.'); }
-    @Override public void accept(TileVisitor visitor) { visitor.visit(this); }
+
+    /**
+     * Constructs an EmptyTile at the specified position.
+     *
+     * @param position The position of the tile
+     */
+    public Empty(Position position) {
+        super(position, '.');
+    }
 }

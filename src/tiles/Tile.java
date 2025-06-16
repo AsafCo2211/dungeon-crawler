@@ -16,7 +16,7 @@ public abstract class Tile {
      * @param tileChar  Character representing the tile on the board
      * @param position  The position of the tile on the board
      */
-    public Tile(char tileChar, Position position) {
+    public Tile(Position position, char tileChar) {
         this.tileChar = tileChar;
         this.position = position;
     }
