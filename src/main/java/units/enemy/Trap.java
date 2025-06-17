@@ -1,7 +1,6 @@
 package units.enemy;
 
 import tiles.Position;
-import units.enemy.Enemy;
 import units.player.Player;
 import game.GameManager;
 
@@ -19,8 +18,8 @@ public class Trap extends Enemy {
         this.expValue = expValue;
         this.visibleFor = vis;
         this.invisibleFor = invis;
-        this.visible = false;
-        this.timer = invis;
+        this.visible = true;
+        this.timer   = 0;
     }
 
     @Override public void act() {
@@ -37,7 +36,7 @@ public class Trap extends Enemy {
         if (distanceTo(p.getMovement().pos()) < 2) {
             int dmg = rollAttack();
             p.takeTrueDamage(dmg);
-            out.msg(name + " ambushes " + p.getName() + " for " + dmg);
+            GameManager.I().msg(name + " ambushes " + p.getName() + " for " + dmg);
         }
     }
 

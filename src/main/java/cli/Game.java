@@ -81,8 +81,11 @@ public final class Game {
         List<Player> list = UnitFactory.catalogue();
 
         System.out.println("please choose your player:\n");
-        for (int i = 0; i < list.size(); i++)
-            System.out.println((i + 1) + ". " + list.get(i).description());
+        for (int i = 0; i < list.size(); i++) {
+            Player h = list.get(i);
+            System.out.println((i + 1) + ". " + h.description());
+            System.out.println();
+        }
 
         Scanner sc = new Scanner(System.in);
         int idx;

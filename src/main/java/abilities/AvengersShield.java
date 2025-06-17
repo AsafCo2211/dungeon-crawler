@@ -1,8 +1,13 @@
 package abilities;
 
+import game.GameManager;
 import units.Unit;
+import units.enemy.Enemy;
 import units.player.Warrior;
 import game.callbacks.MessageCallback;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class AvengersShield extends Ability {
 
@@ -13,14 +18,28 @@ public final class AvengersShield extends Ability {
 
     @Override
     public void cast(Unit owner) {
-        /* startCooldown() returns false and prints the
-           generic “on cooldown” message if needed.        */
-        if (!startCooldown()) return;
-
         Warrior w = (Warrior) owner;
 
-        // heal 10 × DEF and print a flavour message
-        w.getHealth().heal(w.getDefense() * 10);
-        out.msg("*** " + w.getName() + " hurls Avenger's Shield! ***");
+        if (cooldownLeft > 0) {                       // <── use Ability’s field
+            out.msg(w.getName() + " – ability on cooldown (" + cooldownLeft + ")");
+            return;
+        }
+        cooldownLeft = cooldownMax;                   // <── reset
+
+        /* choose random enemy */
+        List<Enemy> pool = GameManager.I().getEnemiesWithin(w.getMovement().pos(), 3);
+        if (pool.isEmpty()) {
+            out.msg("No target in range!");
+            return;
+        }
+
+        Enemy target = pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
+
+        int dmg = w.getHealth().getMax() / 10;
+        target.takeTrueDamage(dmg);
+        w.getHealth().heal(10 * w.getDefense());
+
+        GameManager.I().msg(w.getName() + " hurled Avenger’s Shield at "
+                + target.getName() + " for " + dmg);
     }
 }

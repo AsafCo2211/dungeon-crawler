@@ -12,11 +12,11 @@ public final class Rogue extends Player {
 
     public Rogue(String n, char sym, Position pos,
                  int hp, int atk, int def,
-                 int energyPool) {
+                 int cost) {
 
         super(n, sym, pos, hp, atk, def);
-        this.energy      = new Mana(energyPool);
-        this.energyCost  = energyPool / 10;            // spec
+        this.energy      = new Mana(100);
+        this.energyCost  = cost;            // spec
         setAbility(new FanOfKnives(energyCost, 0, GameManager.I()::msg));
     }
 

@@ -3,8 +3,12 @@ package abilities;
 import game.GameManager;
 import game.callbacks.MessageCallback;
 import units.Unit;
+import units.enemy.Enemy;
 import units.player.ManaUser;
 import units.player.Mage;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public final class Blizzard extends Ability {
 
@@ -23,24 +27,30 @@ public final class Blizzard extends Ability {
 
     @Override
     public void cast(Unit owner) {
-        if (!startCooldown()) return;                 // generic CD check / message
-
-        /* mana check */
-        if (!(owner instanceof ManaUser mUser)) return;
-        if (!mUser.getMana().spend(manaCost)) {
+        ManaUser m = (ManaUser) owner;
+        if (!m.getMana().spend(manaCost)) {
             out.msg("Not enough mana!");
             return;
         }
 
-        /* apply damage */
-        int spellPower = ((Mage) owner).getSpellPower();
-        GameManager.I()
-                .getEnemiesWithin(owner.getMovement().pos(), range)
-                .stream()
-                .limit(hits)
-                .forEach(e -> {
-                    e.takeTrueDamage(spellPower);
-                    out.msg(owner.getName() + " hits " + e.getName());
-                });
+        int hitCnt = 0;
+        while (hitCnt < hits) {
+            List<Enemy> pool = GameManager.I()
+                    .getEnemiesWithin(owner.getMovement().pos(), range);
+            if (pool.isEmpty()) break;
+
+            Enemy e = pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
+            int dmg = ((Mage) owner).getSpellPower();
+            int def = e.rollDefense();
+            int taken = Math.max(0, dmg - def);
+            e.takeTrueDamage(taken);
+
+            out.msg(owner.getName() + " rolled " + dmg
+                    + " spell power; " + e.getName()
+                    + " rolled " + def + " defence; "
+                    + owner.getName() + " dealt " + taken);
+
+            hitCnt++;
+        }
     }
 }

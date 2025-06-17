@@ -12,9 +12,7 @@ import values.Mana;
 public final class Mage extends Player implements ManaUser {
 
     private final Mana mana;
-    private final int  manaCost;
     private int        spellPower;
-    private final int  hits, range;
 
     public Mage(String name, char sym, Position pos,
                 int hp, int att, int def,
@@ -23,10 +21,7 @@ public final class Mage extends Player implements ManaUser {
         super(name, sym, pos, hp, att, def);
 
         this.mana      = new Mana(manaPool);
-        this.manaCost  = manaCost;
         this.spellPower= spellPower;
-        this.hits      = hits;
-        this.range     = range;
 
         setAbility(new Blizzard(manaCost, hits, range, 0, GameManager.I()::msg));
     }
