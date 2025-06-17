@@ -49,7 +49,7 @@ public final class Game {
             switch (act) {
                 case QUIT -> { return; }
                 case SKIP -> { /* do nothing */ }
-                case CAST -> player.useAbility();
+                case CAST -> player.castAbility();
                 case UP, DOWN, LEFT, RIGHT -> handleMove(act);
                 default -> { /* ignore */ }
             }

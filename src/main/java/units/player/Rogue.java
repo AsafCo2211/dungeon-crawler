@@ -5,7 +5,7 @@ import game.GameManager;
 import tiles.Position;
 import values.Mana;   // reused as Energy
 
-public final class Rogue extends Player {
+public final class Rogue extends Player  {
 
     private final Mana energy;        // energy pool (0-…)
     private final int  energyCost;    // cost per Fan-of-Knives

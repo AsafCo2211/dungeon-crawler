@@ -34,6 +34,7 @@ tiles\Tile.class
 units\enemy\Monster.class
 units\player\Hunter.class
 values\Movement.class
+units\HeroicUnit.class
 cli\InputProvider$1Q.class
 cli\Game$1.class
 values\Mana.class

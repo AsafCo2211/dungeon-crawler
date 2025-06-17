@@ -3,6 +3,7 @@ package units.player;
 import abilities.Ability;
 import game.GameManager;
 import tiles.*;
+import units.HeroicUnit;
 import units.Unit;
 import units.enemy.Enemy;
 
@@ -11,7 +12,7 @@ import units.enemy.Enemy;
  * Warrior / Mage / Rogue extend this and override {@link #levelUp()} to
  * increase their stats and resource pools.
  */
-public abstract class Player extends Unit {
+public abstract class Player extends Unit implements HeroicUnit {
 
     /* ------------ state ------------ */
     protected Ability ability;                        // active ability (may be null)
@@ -23,7 +24,7 @@ public abstract class Player extends Unit {
 
     /* ------------ ability plumbing ------------ */
     public void setAbility(Ability a)          { ability = a; }
-    public void useAbility()                   { if (ability != null) ability.cast(this); }
+    public void castAbility() { if (ability != null) ability.cast(this); }
     public void resetAbilityCooldown()         { if (ability != null) ability.reset(); }
 
     /* ------------ XP handling ----------------- */

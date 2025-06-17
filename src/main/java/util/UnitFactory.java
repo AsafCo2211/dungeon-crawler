@@ -1,6 +1,7 @@
 package util;
 
 import tiles.*;                 // Position, Empty, Wall … (adjust if you use different packages)
+import units.enemy.Boss;
 import units.enemy.Enemy;
 import units.enemy.Monster;
 import units.enemy.Trap;
@@ -44,9 +45,10 @@ public final class UnitFactory {
                     entry('b', p -> new Monster("Bear-Wight", 'b', p,1000,  75, 30, 4, 250)),
                     entry('g', p -> new Monster("Giant-Wight", 'g', p,1500, 100, 40, 5, 500)),
                     entry('w', p -> new Monster("White Walker", 'w', p,2000, 150, 50, 6,1000)),
-                    entry('M', p -> new Monster("The Mountain", 'M', p,1000,  60, 25, 6, 500)),
-                    entry('C', p -> new Monster("Queen Cersei", 'C', p, 100,  10, 10, 1,1000)),
-                    entry('K', p -> new Monster("Night’s King", 'K', p,5000, 300,150, 8,5000)),
+
+                    entry('M', p -> new Boss("The Mountain", 'M', p,1000,  60, 25, 6, 500)),
+                    entry('C', p -> new Boss("Queen Cersei", 'C', p, 100,  10, 10, 1,1000)),
+                    entry('K', p -> new Boss("Night’s King", 'K', p,5000, 300,150, 8,5000)),
 
                     /* Traps */
                     entry('B', p -> new Trap("Bonus Trap", 'B', p,   1,   1,  1, 250, 1,  5)),
@@ -72,7 +74,7 @@ public final class UnitFactory {
             case 3 -> new Mage    ("Thoros of Myr",'@',pos, 250, 25, 4, 150, 37, 20, 5, 6);
             case 4 -> new Rogue   ("Arya Stark", '@', pos, 150, 40, 2, 100);
             case 5 -> new Rogue   ("Bronn",      '@', pos, 250, 35, 3, 100);
-            case 6 -> new Hunter  ("Ygritte",    '@', pos, 220, 30, 2, 100);
+            case 6 -> new Hunter  ("Ygritte",    '@', pos, 220, 30, 2, 6);
             default -> throw new IllegalArgumentException("bad player index");
         };
     }
