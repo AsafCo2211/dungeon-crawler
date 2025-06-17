@@ -28,6 +28,6 @@ public final class Mana {
     public void increasePool(int delta) {
         if (delta <= 0) return;
         pool += delta;
-//        current += delta;
+        current += delta;
     }
 }

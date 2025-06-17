@@ -1,12 +1,23 @@
 package game;
 
 import units.enemy.Enemy;
-public class EnemyController {
-    private final GameManager gm = GameManager.I();
 
+import java.util.Iterator;
+
+public class EnemyController {
     public void runAI() {
-        for (Enemy e : GameManager.I().getEnemies()) {
-            e.act();
+        GameManager gm = GameManager.I();
+
+        Iterator<Enemy> it = gm.getEnemies().iterator();
+        while (it.hasNext()) {
+            Enemy e = it.next();
+
+            if (e.getHealth().isDead()) {
+                it.remove();           // remove corpse once
+                continue;
+            }
+
+            e.act();                   // move or attack
         }
     }
 }

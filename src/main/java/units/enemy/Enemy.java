@@ -44,11 +44,18 @@ public abstract class Enemy extends Unit {
     }
 
 
-    public void act() { }
+    public void act() {
+        if (health.isDead())            // ← NEW: do nothing if already dead
+            return;
+    }
 
     @Override
     protected void die() {
-        out.msg("💀 " + name + " died!");
+        GameManager gm = GameManager.I();
+
+        gm.msg(name + " died!");
+        gm.removeEnemy(this);          // <--  NEW  – drop the corpse right now
+
         super.die();
     }
 }

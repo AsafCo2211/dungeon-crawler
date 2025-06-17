@@ -17,6 +17,8 @@ public class Boss extends Monster {
     }
 
     @Override public void act() {
+        super.act();
+
         turnCounter++;
 
         if (turnCounter % abilityFreq == 0) {

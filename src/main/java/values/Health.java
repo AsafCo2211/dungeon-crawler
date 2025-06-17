@@ -11,7 +11,7 @@ public final class Health {
 
     public int get(){ return current; }
     public int getMax() { return max; }
-    public boolean isDead() { return current == 0; }
+    public boolean isDead() { return current <= 0; }
 
     public void damage(int amount) { current = Math.max(0, current - amount); }
     public void heal(int amount)   { current = Math.min(max, current + amount); }
@@ -21,6 +21,6 @@ public final class Health {
     public void increasePool(int delta) {
         if (delta <= 0) return;
         max += delta;
-//        current += delta;
+        current += delta;
     }
 }

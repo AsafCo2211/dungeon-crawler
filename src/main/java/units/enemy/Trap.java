@@ -23,6 +23,8 @@ public class Trap extends Enemy {
     }
 
     @Override public void act() {
+        super.act();
+
         /* visibility timer */
         if (--timer == 0) {
             visible = !visible;

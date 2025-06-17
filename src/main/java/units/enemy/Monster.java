@@ -17,6 +17,8 @@ public class Monster extends Enemy {
 
     @Override
     public void act() {
+        super.act();
+
         GameManager gm = GameManager.I();
         Player player = gm.getPlayer();
         if (player == null) return;

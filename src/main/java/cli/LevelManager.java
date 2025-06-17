@@ -48,12 +48,6 @@ public final class LevelManager {
                         player.getMovement().move(pos);
                     }
 
-                    /* refill between levels */
-                    player.getHealth().healFull();
-                    if (player instanceof ManaUser m) m.getMana().refillFull();
-                    if (player instanceof Rogue    r) r.getEnergy().refillFull();
-                    player.resetAbilityCooldown();
-
                     board[y][x] = player;
                     gm.setPlayer(player);
                 }
