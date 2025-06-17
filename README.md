@@ -1,4 +1,4 @@
-# Dungeons and Dragons - OOP CLI Game
+# Dungeons and Dragons - OOP cli Game
 
 ## 📌 Project Status
 🚧 Initial setup – project structure created, no code implemented yet.
@@ -6,15 +6,15 @@
 ---
 
 ## 📝 Project Description
-A single-player, multi-level **text-based RPG game**, inspired by *Dungeons & Dragons*.  
+A single-units.player, multi-level **text-based RPG game**, inspired by *Dungeons & Dragons*.  
 The project will be implemented in **Java**, using **Object-Oriented Programming (OOP)** principles,  
 as part of **HW3 in the Object-Oriented Software Design (OOSD)** course at Ben-Gurion University.
 
 ---
 
 ## 🎯 Planned Features
-- Text-based interface (CLI)
-- Multiple player types: Warrior, Mage, Rogue (and optionally Hunter)
+- Text-based interface (cli)
+- Multiple units.player types: Warrior, Mage, Rogue (and optionally Hunter)
 - Enemies: Monsters, Traps, Bosses
 - Combat system with attack & defense mechanics
 - Special abilities and leveling system
@@ -30,7 +30,7 @@ DungeonsAndDragons-OOP/
 ├── README.md
 └── src/
     ├── cli/
-    │   ├── CLI.java
+    │   ├── cli.java
     │   └── InputHandler.java
     ├── game/
     │   ├── Board.java

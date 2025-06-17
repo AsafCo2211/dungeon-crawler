@@ -1,0 +1,55 @@
+package units.enemy;
+
+import tiles.Position;
+import units.enemy.Enemy;
+import units.player.Player;
+import game.GameManager;
+
+public class Trap extends Enemy {
+
+    private final int expValue;
+    private final int visibleFor;
+    private final int invisibleFor;
+
+    private int timer;             // counts down to toggle
+    private boolean visible;
+
+    public Trap(String name, char symbol, Position pos, int hp, int attack, int defense, int expValue, int vis, int invis) {
+        super(name, symbol, pos, hp, attack, defense, 1);
+        this.expValue = expValue;
+        this.visibleFor = vis;
+        this.invisibleFor = invis;
+        this.visible = false;
+        this.timer = invis;
+    }
+
+    @Override public void act() {
+        /* visibility timer */
+        if (--timer == 0) {
+            visible = !visible;
+            timer   = visible ? visibleFor : invisibleFor;
+        }
+        if (!visible) return;
+
+        Player p = GameManager.I().getPlayer();
+        if (p == null) return;
+
+        if (distanceTo(p.getMovement().pos()) < 2) {
+            int dmg = rollAttack();
+            p.takeTrueDamage(dmg);
+            out.msg(name + " ambushes " + p.getName() + " for " + dmg);
+        }
+    }
+
+    @Override protected void die() {
+        super.die();
+        GameManager.I().getPlayer().gainXP(expValue);
+    }
+
+    public char getTileChar() {
+        return visible ? tileChar : '.';      // invisible phase prints '.'
+    }
+
+    @Override
+    public String toString() { return String.valueOf(getTileChar()); }
+}
