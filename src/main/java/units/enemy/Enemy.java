@@ -1,8 +1,10 @@
 package units.enemy;
 
+import game.GameManager;
 import tiles.Position;
 import tiles.TileVisitor;
 import units.Unit;
+import units.player.Player;
 
 public abstract class Enemy extends Unit {
 
@@ -20,10 +22,27 @@ public abstract class Enemy extends Unit {
 
     @Override
     public void visit(units.player.Player player) {
-        int dmg = Math.max(0, rollAttack() - player.rollDefense());
-        player.takeTrueDamage(dmg);
-        out.msg(name + " slashes " + player.getName() + " for " + dmg);
+        hitPlayer(player);
     }
+
+    /* ------------------------------------------------------------------
+   Logs a single melee swing from *this enemy* to the player.
+   ------------------------------------------------------------------ */
+    protected void hitPlayer(Player p) {
+        GameManager.I().msg(name + " engaged into a battle with " + p.getName());
+
+        int attRoll = rollAttack();
+        int defRoll = p.rollDefense();
+        int dmg = Math.max(0, attRoll - defRoll);
+
+        GameManager.I().msg(name        + " rolled " + attRoll + " attack points");
+        GameManager.I().msg(p.getName() + " rolled " + defRoll + " defence points");
+        GameManager.I().msg(name + " dealt " + dmg + " damage to " + p.getName());
+        GameManager.I().msg("");
+
+        p.takeTrueDamage(dmg);
+    }
+
 
     public void act() { }
 

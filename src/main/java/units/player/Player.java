@@ -59,20 +59,27 @@ public abstract class Player extends Unit {
     /** Melee combat with an enemy. */
     @Override
     public void visit(Enemy enemy) {
-        int dmg = Math.max(0, rollAttack() - enemy.rollDefense());
+
+        /* 1 — banner */
+        GameManager.I().msg(name + " engaged into a battle with " + enemy.getName());
+
+        /* 2 — rolls + damage */
+        int attRoll = rollAttack();
+        int defRoll = enemy.rollDefense();
+        int dmg     = Math.max(0, attRoll - defRoll);
+
+        GameManager.I().msg(name           + " rolled " + attRoll + " attack points");
+        GameManager.I().msg(enemy.getName() + " rolled " + defRoll + " defence points");
+        GameManager.I().msg(name + " dealt " + dmg + " damage to " + enemy.getName());
+        GameManager.I().msg("");                              // blank line
+
         enemy.takeTrueDamage(dmg);
-        GameManager.I().msg(name + " hits " + enemy.getName() + " for " + dmg);
 
+        /* 3 — if the enemy died */
         if (enemy.getHealth().isDead()) {
-            /* Try to fetch XP value if the concrete enemy exposes it */
-            int xpAward = 0;
-            try {
-                xpAward = (int) enemy.getClass().getMethod("getExpValue").invoke(enemy);
-            } catch (Exception ignored) { /* enemy provides no XP */ }
+            GameManager.I().msg(enemy.getName() + " was killed by you\n");
+            gainXP(enemy.getXP().getXP());
 
-            gainXP(xpAward);
-
-            /* step into enemy square */
             Position from = movement.pos();
             Position to   = enemy.getMovement().pos();
             GameManager.I().setTile(from, new Empty(from));
@@ -80,6 +87,7 @@ public abstract class Player extends Unit {
             movement.move(to);
         }
     }
+
 
     /* Accept hook so tiles dispatch to us */
     @Override public void accept(TileVisitor v) { v.visit(this); }
@@ -115,5 +123,16 @@ public abstract class Player extends Unit {
             sb.append(",  SpellPower: ").append(m.getSpellPower());
 
         return sb.toString();
+    }
+
+    public void onTick() {
+        /* generic part: tick cooldown if the ability uses one */
+        if (ability != null && ability.turnsLeft() > 0)
+            ability.tick();
+    }
+
+    @Override
+    public String toString() {
+        return health.isDead() ? "X" : String.valueOf(tileChar);
     }
 }

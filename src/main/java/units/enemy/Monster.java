@@ -24,9 +24,7 @@ public class Monster extends Enemy {
         int dist = distanceTo(player.getMovement().pos());
 
         if (dist <= 1) {
-            int dmg = Math.max(0, rollAttack() - player.rollDefense());
-            player.takeTrueDamage(dmg);
-            out.msg(name + " hits " + player.getName() + " for " + dmg);
+            hitPlayer(player);
             return;
         }
 

@@ -24,7 +24,9 @@ public final class Warrior extends Player {
     /* ------------------------------------------------------------
        Game-tick hook (called from GameManager)
        ------------------------------------------------------------ */
-    public void onTick() {                   // called once each round
+    @Override
+    public void onTick() {
+        super.onTick();
         if (ability.turnsLeft() > 0) ability.tick();   // decrement cooldown
     }
 

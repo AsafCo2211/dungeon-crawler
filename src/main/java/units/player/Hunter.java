@@ -40,7 +40,11 @@ public final class Hunter extends Player implements ManaUser {
     /* ------------------------------------------------------------------
        Per-turn regeneration: +10 energy (assignment rule)
        ------------------------------------------------------------------ */
-    public void onTick() { energy.regen(10); }
+    @Override
+    public void onTick() {
+        super.onTick();
+        energy.regen(10);
+    }
 
     /* ------------------------------------------------------------------
        Stat growth (base player bonuses + energy pool gain)

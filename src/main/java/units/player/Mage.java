@@ -14,7 +14,7 @@ public final class Mage extends Player implements ManaUser {
     private final Mana mana;
     private final int  manaCost;
     private int        spellPower;
-    private final int  hits, range;   // ability parameters
+    private final int  hits, range;
 
     public Mage(String name, char sym, Position pos,
                 int hp, int att, int def,
@@ -38,7 +38,9 @@ public final class Mage extends Player implements ManaUser {
     /* ------------------------------------------------------------
        Game-tick hook – regen mana: +level each round (spec)
        ------------------------------------------------------------ */
+    @Override
     public void onTick() {
+        super.onTick();
         mana.regen(xp.getLevel());          // +level mana/turn
     }
 

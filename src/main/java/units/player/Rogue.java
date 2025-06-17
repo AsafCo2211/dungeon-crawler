@@ -24,7 +24,11 @@ public final class Rogue extends Player {
     public Mana getEnergy() { return energy; }
 
     /* auto-regen 10 energy each round (assignment) */
-    public void onTick() { energy.regen(10); }
+    @Override
+    public void onTick() {
+        super.onTick();
+        energy.regen(10);
+    }
 
     /* level-up extras */
     @Override

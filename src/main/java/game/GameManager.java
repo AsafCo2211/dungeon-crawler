@@ -69,7 +69,7 @@ public final class GameManager {
     }
 
     public void msg(String text) {
-        out.msg(text);
+//        out.msg(text);
         roundLog.append(text).append('\n');
     }
     public String flushRoundMessages() {
@@ -78,7 +78,12 @@ public final class GameManager {
         return s;
     }
 
-    public void gameTick() { enemyCtl.runAI(); }
+    public void gameTick() {
+        if (player != null)
+            player.onTick();
+
+        enemyCtl.runAI();
+    }
 
     public static GameManager bootstrap() {
         return create(new RandomGenerator());
