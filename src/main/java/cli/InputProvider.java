@@ -21,17 +21,16 @@ public final class InputProvider {
         return mapping.getOrDefault(line.charAt(0), Action.NONE);
     }
 
-    /* interactive setup -------------------------------------------------- */
     public static Map<Character, Action> promptForMapping() {
         record Q(String prompt, Action act) {}
         Q[] qs = {
-                new Q("MOVING UP",            Action.UP),
-                new Q("MOVING DOWN",          Action.DOWN),
-                new Q("MOVING LEFT",          Action.LEFT),
-                new Q("MOVING RIGHT",         Action.RIGHT),
-                new Q("SKIP TURN",            Action.SKIP),
+                new Q("MOVING UP", Action.UP),
+                new Q("MOVING DOWN", Action.DOWN),
+                new Q("MOVING LEFT", Action.LEFT),
+                new Q("MOVING RIGHT", Action.RIGHT),
+                new Q("SKIP TURN", Action.SKIP),
                 new Q("CAST SPECIAL ABILITY", Action.CAST),
-                new Q("QUIT GAME",            Action.QUIT)
+                new Q("QUIT GAME", Action.QUIT)
         };
 
         Map<Character, Action> map = new HashMap<>();

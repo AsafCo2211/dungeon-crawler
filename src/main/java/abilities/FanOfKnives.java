@@ -7,9 +7,8 @@ import units.player.Rogue;
 
 public final class FanOfKnives extends Ability {
 
-    private final int cost;      // energy cost per cast
+    private final int cost;
 
-    /** @param cd 0 if FoK has no cooldown in your spec */
     public FanOfKnives(int cost, int cd, MessageCallback cb) {
         super("Fan of Knives", cb);
         this.cost = cost;
@@ -18,7 +17,7 @@ public final class FanOfKnives extends Ability {
 
     @Override
     public void cast(Unit owner) {
-        if (!startCooldown()) return;             // handles CD & message
+        if (!startCooldown()) return;
 
         Rogue r = (Rogue) owner;
         if (!r.getEnergy().spend(cost)) {
@@ -26,9 +25,7 @@ public final class FanOfKnives extends Ability {
             return;
         }
 
-        GameManager.I()
-                .getEnemiesWithin(r.getMovement().pos(), 2)
-                .forEach(e -> e.takeTrueDamage(r.getAttack()));
+        GameManager.I().getEnemiesWithin(r.getMovement().pos(), 2).forEach(e -> e.takeTrueDamage(r.getAttack()));
 
         out.msg(r.getName() + " unleashes Fan of Knives!");
     }

@@ -25,9 +25,6 @@ public abstract class Enemy extends Unit {
         hitPlayer(player);
     }
 
-    /* ------------------------------------------------------------------
-   Logs a single melee swing from *this enemy* to the player.
-   ------------------------------------------------------------------ */
     protected void hitPlayer(Player p) {
         GameManager.I().msg(name + " engaged into a battle with " + p.getName());
 
@@ -35,7 +32,7 @@ public abstract class Enemy extends Unit {
         int defRoll = p.rollDefense();
         int dmg = Math.max(0, attRoll - defRoll);
 
-        GameManager.I().msg(name        + " rolled " + attRoll + " attack points");
+        GameManager.I().msg(name + " rolled " + attRoll + " attack points");
         GameManager.I().msg(p.getName() + " rolled " + defRoll + " defence points");
         GameManager.I().msg(name + " dealt " + dmg + " damage to " + p.getName());
         GameManager.I().msg("");
@@ -44,17 +41,14 @@ public abstract class Enemy extends Unit {
     }
 
 
-    public void act() {
-        if (health.isDead())            // ← NEW: do nothing if already dead
-            return;
-    }
+    public void act() { }
 
     @Override
     protected void die() {
         GameManager gm = GameManager.I();
 
         gm.msg(name + " died!");
-        gm.removeEnemy(this);          // <--  NEW  – drop the corpse right now
+        gm.removeEnemy(this);
 
         super.die();
     }

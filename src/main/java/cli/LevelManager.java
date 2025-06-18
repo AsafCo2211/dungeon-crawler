@@ -32,7 +32,7 @@ public final class LevelManager {
         gm.getEnemies().clear();
 
         Tile[][] board = new Tile[rows][cols];
-        Player   player;
+        Player player;
 
         for (int y = 0; y < rows; y++) {
             String row = lines.get(y);

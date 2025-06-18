@@ -60,16 +60,15 @@ public abstract class Unit extends Tile implements TileVisitor{
 
     @Override
     public void visit(Wall wall) {
-        /* blocked – nothing happens */
     }
 
     @Override
-    public void visit(Player player) { /* overridden in Enemy if needed */ }
+    public void visit(Player player) { }
 
     @Override
-    public void visit(Enemy enemy)   { /* overridden in Player */ }
+    public void visit(Enemy enemy)   { }
 
     protected void die() {
-        GameManager.I().removeEnemy(this);      // no-op for players; overridden in Enemy
+        GameManager.I().removeEnemy(this);
     }
 }

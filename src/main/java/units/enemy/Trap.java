@@ -19,16 +19,13 @@ public class Trap extends Enemy {
         this.visibleFor = vis;
         this.invisibleFor = invis;
         this.visible = true;
-        this.timer   = 0;
+        this.timer = 0;
     }
 
     @Override public void act() {
-        super.act();
-
-        /* visibility timer */
         if (--timer == 0) {
             visible = !visible;
-            timer   = visible ? visibleFor : invisibleFor;
+            timer = visible ? visibleFor : invisibleFor;
         }
         if (!visible) return;
 
@@ -48,7 +45,7 @@ public class Trap extends Enemy {
     }
 
     public char getTileChar() {
-        return visible ? tileChar : '.';      // invisible phase prints '.'
+        return visible ? tileChar : '.';
     }
 
     @Override

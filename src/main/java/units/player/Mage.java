@@ -5,49 +5,33 @@ import game.GameManager;
 import tiles.Position;
 import values.Mana;
 
-/**
- * Mage = Melisandre / Thoros of Myr.
- * Special ability: Blizzard (mana-based).
- */
 public final class Mage extends Player implements ManaUser {
 
     private final Mana mana;
-    private int        spellPower;
+    private int spellPower;
 
-    public Mage(String name, char sym, Position pos,
-                int hp, int att, int def,
-                int manaPool, int manaCost,
-                int spellPower, int hits, int range) {
+    public Mage(String name, char sym, Position pos, int hp, int att, int def, int manaPool, int manaCost, int spellPower, int hits, int range) {
         super(name, sym, pos, hp, att, def);
-
-        this.mana      = new Mana(manaPool);
-        this.spellPower= spellPower;
+        this.mana = new Mana(manaPool);
+        this.spellPower = spellPower;
 
         setAbility(new Blizzard(manaCost, hits, range, 0, GameManager.I()::msg));
     }
 
-    /* ManaUser interface */
     @Override public Mana getMana() { return mana; }
     public int  getSpellPower()     { return spellPower; }
 
-    /* ------------------------------------------------------------
-       Game-tick hook – regen mana: +level each round (spec)
-       ------------------------------------------------------------ */
     @Override
     public void onTick() {
         super.onTick();
-        mana.regen(xp.getLevel());          // +level mana/turn
+        mana.regen(xp.getLevel());
     }
 
-    /* ------------------------------------------------------------
-       Stat growth per spec
-       ------------------------------------------------------------ */
     @Override
     protected void levelUp() {
-        int lvl = xp.getLevel();            // already incremented
+        int lvl = xp.getLevel();
         super.levelUp();
 
-        /* mage-extra growth */
         mana.increasePool(25 * lvl);
         mana.regen(mana.get() + mana.getPool() / 4);
         spellPower += 10 * lvl;

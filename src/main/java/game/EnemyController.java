@@ -13,11 +13,11 @@ public class EnemyController {
             Enemy e = it.next();
 
             if (e.getHealth().isDead()) {
-                it.remove();           // remove corpse once
+                it.remove();
                 continue;
             }
 
-            e.act();                   // move or attack
+            e.act();
         }
     }
 }

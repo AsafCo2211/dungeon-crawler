@@ -13,20 +13,20 @@ public final class AvengersShield extends Ability {
 
     public AvengersShield(int cooldown, MessageCallback cb) {
         super("Avenger's Shield", cb);
-        this.cooldownMax = cooldown;        // one-time setup
+        this.cooldownMax = cooldown;
     }
 
     @Override
     public void cast(Unit owner) {
         Warrior w = (Warrior) owner;
 
-        if (cooldownLeft > 0) {                       // <── use Ability’s field
+        if (cooldownLeft > 0) {
             out.msg(w.getName() + " – ability on cooldown (" + cooldownLeft + ")");
             return;
         }
-        cooldownLeft = cooldownMax;                   // <── reset
 
-        /* choose random enemy */
+        cooldownLeft = cooldownMax;
+
         List<Enemy> pool = GameManager.I().getEnemiesWithin(w.getMovement().pos(), 3);
         if (pool.isEmpty()) {
             out.msg("No target in range!");
@@ -39,7 +39,6 @@ public final class AvengersShield extends Ability {
         target.takeTrueDamage(dmg);
         w.getHealth().heal(10 * w.getDefense());
 
-        GameManager.I().msg(w.getName() + " hurled Avenger’s Shield at "
-                + target.getName() + " for " + dmg);
+        GameManager.I().msg(w.getName() + " hurled Avenger’s Shield at " + target.getName() + " for " + dmg);
     }
 }

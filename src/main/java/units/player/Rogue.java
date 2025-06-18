@@ -7,33 +7,28 @@ import values.Mana;   // reused as Energy
 
 public final class Rogue extends Player  {
 
-    private final Mana energy;        // energy pool (0-…)
-    private final int  energyCost;    // cost per Fan-of-Knives
+    private final Mana energy;
+    private final int  energyCost;
 
-    public Rogue(String n, char sym, Position pos,
-                 int hp, int atk, int def,
-                 int cost) {
-
+    public Rogue(String n, char sym, Position pos, int hp, int atk, int def, int cost) {
         super(n, sym, pos, hp, atk, def);
-        this.energy      = new Mana(100);
-        this.energyCost  = cost;            // spec
+        this.energy = new Mana(100);
+        this.energyCost = cost;
+
         setAbility(new FanOfKnives(energyCost, 0, GameManager.I()::msg));
     }
 
-    /* Energy access for HUD */
     public Mana getEnergy() { return energy; }
 
-    /* auto-regen 10 energy each round (assignment) */
     @Override
     public void onTick() {
         super.onTick();
         energy.regen(10);
     }
 
-    /* level-up extras */
     @Override
     protected void levelUp() {
-        super.levelUp();                 // base +HP/+Atk/+Def
+        super.levelUp();
 
         int lvl = xp.getLevel();
 

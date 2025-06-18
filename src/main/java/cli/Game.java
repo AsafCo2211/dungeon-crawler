@@ -20,28 +20,23 @@ public final class Game {
             return;
         }
 
-        /* key binding ---------------------------------------------------- */
         Map<Character, Action> keys = InputProvider.promptForMapping();
         InputProvider input = new InputProvider(keys);
 
-        /* bootstrap engine ----------------------------------------------- */
-        GameManager.create(new RandomGenerator())
-                .setCallbacks(System.out::println,
-                        u -> System.out.println(u.getName() + " died"));
+        GameManager.create(new RandomGenerator()).setCallbacks(System.out::println, u -> System.out.println(u.getName() + " died"));
 
-        /* choose hero ---------------------------------------------------- */
         int heroIdx = promptHero();
         LevelManager lm = new LevelManager(Path.of(args[0]), heroIdx);
         if (!lm.loadNextLevel()) {
             System.err.println("No levels found.");
             return;
         }
+
         System.out.println("ENJOY!\n");
         render(null);
 
         Player player = GameManager.I().getPlayer();
 
-        /* main loop ------------------------------------------------------ */
         while (true) {
             System.out.print("your turn:\n\n");
             Action act = input.nextAction();
@@ -54,12 +49,9 @@ public final class Game {
                 default -> { /* ignore */ }
             }
 
-            /* enemies act */
             System.out.println("\nenemies turn:\n");
-            GameManager.I().gameTick();
             render(null);
 
-            /* post-checks */
             if (player.getHealth().isDead()) {
                 System.out.println("You died – game over.");
                 render(null);
@@ -73,10 +65,11 @@ public final class Game {
                 }
                 render(null);
             }
+
+            GameManager.I().gameTick();
         }
     }
 
-    /* hero list ---------------------------------------------------------- */
     private static int promptHero() {
         List<Player> list = UnitFactory.catalogue();
 
@@ -101,21 +94,19 @@ public final class Game {
         return idx;
     }
 
-    /* movement ----------------------------------------------------------- */
     private static void handleMove(Action a) {
         Player p = GameManager.I().getPlayer();
         Position pos = p.getMovement().pos();
         Position to = switch (a) {
-            case UP    -> pos.translate( 0, -1);
+            case UP -> pos.translate( 0, -1);
             case DOWN  -> pos.translate( 0,  1);
             case LEFT  -> pos.translate(-1,  0);
             case RIGHT -> pos.translate( 1,  0);
-            default    -> pos;
+            default -> pos;
         };
         GameManager.I().getBoardController().move(p, to);
     }
 
-    /* render ------------------------------------------------------------- */
     private static void render(String hdr) {
         if (hdr != null) System.out.println(hdr);
         printBoard();
@@ -131,8 +122,8 @@ public final class Game {
             for (int x = 0; ; x++) {
                 try { sb.append(gm.tileAt(new Position(x, y))); }
                 catch (ArrayIndexOutOfBoundsException e) {
-                    if (x == 0) break OUTER;      // reached past last row
-                    else break;                    // reached past last col
+                    if (x == 0) break OUTER;
+                    else break;
                 }
             }
             System.out.println(sb);

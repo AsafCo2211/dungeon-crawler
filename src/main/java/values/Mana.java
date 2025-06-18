@@ -5,23 +5,20 @@ public final class Mana {
 
     public Mana(int pool) {
         if (pool <= 0) throw new IllegalArgumentException("mana pool must be positive");
-        this.pool    = pool;
+        this.pool = pool;
         this.current = pool;
     }
 
-    /* ---------- accessors ---------- */
-    public int  get()      { return current; }
-    public int  getPool()  { return pool;    }
+    public int  get() { return current; }
+    public int  getPool() { return pool;    }
 
-    /* ---------- basic ops ---------- */
     public boolean spend(int amount) {
         if (current < amount) return false;
         current -= amount;
         return true;
     }
-    public void regen(int amt) { current = Math.min(pool, current + amt); }
 
-    /* ---------- NEW helpers for level-up ---------- */
+    public void regen(int amt) { current = Math.min(pool, current + amt); }
 
     public void refillFull() { current = pool; }
 
