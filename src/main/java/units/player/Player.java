@@ -105,10 +105,7 @@ public abstract class Player extends Unit implements HeroicUnit {
         return sb.toString();
     }
 
-    public void onTick() {
-        if (ability != null && ability.turnsLeft() > 0)
-            ability.tick();
-    }
+    public void onTick() { }
 
     @Override
     public String toString() {

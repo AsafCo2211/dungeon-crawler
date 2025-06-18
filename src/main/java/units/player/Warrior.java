@@ -12,6 +12,11 @@ public final class Warrior extends Player {
     }
 
     @Override
+    public void onTick() {
+        if (ability.turnsLeft() > 0) ability.tick();
+    }
+
+    @Override
     protected void levelUp() {
         super.levelUp();
         int lvl = xp.getLevel();

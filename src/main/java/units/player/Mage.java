@@ -23,7 +23,6 @@ public final class Mage extends Player implements ManaUser {
 
     @Override
     public void onTick() {
-        super.onTick();
         mana.regen(xp.getLevel());
     }
 

@@ -22,7 +22,6 @@ public final class Rogue extends Player  {
 
     @Override
     public void onTick() {
-        super.onTick();
         energy.regen(10);
     }
 

@@ -56,8 +56,6 @@ public final class Hunter extends Player {
 
     @Override
     public void onTick() {
-        super.onTick();
-
         if (tickCounter == 10) {
             arrows += xp.getLevel();
             tickCounter = 0;
