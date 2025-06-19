@@ -17,6 +17,27 @@ public final class Hunter extends Player {
     }
 
     @Override
+    public void accept(IPlayerVisitor v) {
+        v.visit(this);
+    }
+
+    public int getArrows() {
+        return arrows;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    @Override
+    public void onTick() {
+        if (tickCounter / 10 > 0) {
+            arrows += 1 * xp.getLevel();
+            tickCounter = 0;
+        }
+    }
+
+    @Override
     public void castAbility() {
         if (arrows == 0) {
             GameManager.I().msg(name + " has no arrows!");
@@ -55,14 +76,7 @@ public final class Hunter extends Player {
     }
 
     @Override
-    public void onTick() {
-        if (tickCounter == 10) {
-            arrows += xp.getLevel();
-            tickCounter = 0;
-        } else
-            tickCounter++;
+    public String description() {
+        return super.description() + String.format(",  Arrows: %d,  Range: %d", getArrows(), getRange());
     }
-
-    public int getArrows() { return arrows; }
-    public int getRange() { return range; }
 }

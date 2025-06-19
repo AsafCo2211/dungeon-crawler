@@ -5,9 +5,10 @@ import game.GameManager;
 import tiles.*;
 import units.HeroicUnit;
 import units.Unit;
-import units.enemy.Enemy;
+import units.UnitVisitor;
 import values.Experience;
 import values.Position;
+
 
 public abstract class Player extends Unit implements HeroicUnit {
     protected Ability ability;
@@ -16,6 +17,18 @@ public abstract class Player extends Unit implements HeroicUnit {
     protected Player(String name, char symbol, Position pos, int hp, int atk, int def) {
         super(name, symbol, pos, hp, atk, def);
     }
+
+    @Override
+    public void accept(TileVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
+    public void accept(UnitVisitor v) {
+        v.visit(this);
+    }
+
+    public abstract void accept(IPlayerVisitor v);
 
     public void setAbility(Ability a) { ability = a; }
     public void castAbility() { if (ability != null) ability.cast(this); }
@@ -30,47 +43,46 @@ public abstract class Player extends Unit implements HeroicUnit {
 
         for (int lvl = before + 1; lvl <= after; lvl++) {
             levelUp(lvl);
-            GameManager.I().msg("=== " + name + " reached level " + lvl + " ===");
+            GameManager.I().msg("=== " + name + " reached level " + lvl + " ===\n");
         }
     }
 
     public void levelUp(int lvl) {
         health.increasePool(10 * lvl);
         health.healFull();
-
         attack += 4 * lvl;
-        defense += 1 * lvl;
+        defense += lvl;
     }
 
-    @Override public void visit(Empty e) { super.visit(e); }
-
-    @Override public void visit(Player p) { /* noop */ }
+    @Override
+    public void visit(Player p) { }
 
     @Override
-    public void visit(Enemy enemy) {
-        GameManager.I().msg(name + " engaged into a battle with " + enemy.getName());
+    public void visit(units.enemy.Enemy e) {
+        GameManager.I().msg(this.getName() + " engaged into a battle with " + e.getName());
 
         int attRoll = rollAttack();
-        int defRoll = enemy.rollDefense();
+        int defRoll = e.rollDefense();
         int dmg = Math.max(0, attRoll - defRoll);
 
-        GameManager.I().msg(name + " rolled " + attRoll + " attack points");
-        GameManager.I().msg(enemy.getName() + " rolled " + defRoll + " defence points");
-        GameManager.I().msg(name + " dealt " + dmg + " damage to " + enemy.getName());
-        GameManager.I().msg("");
+        GameManager.I().msg(this.getName() + " rolled " + attRoll + " attack points");
+        GameManager.I().msg(e.getName() + " rolled " + defRoll + " defence points");
+        GameManager.I().msg(this.getName() + " dealt " + dmg + " damage to " + e.getName() + "\n");
 
-        enemy.takeTrueDamage(dmg);
+        e.takeTrueDamage(dmg);
 
-        if (enemy.getHealth().isDead()) {
-            Position from = pos;
-            Position to = enemy.getPosition();
-            GameManager.I().setTile(from, new Empty(from));
-            GameManager.I().setTile(to, this);
-            move(to);
+        if (e.getHealth().isDead()) {
+            Position formerEnemyPos = e.getPosition();
+            this.gainXP(e.getExpValue());
+            Tile newTile = GameManager.I().tileAt(formerEnemyPos);
+            newTile.accept(this);
         }
     }
 
-    @Override public void accept(TileVisitor v) { v.visit(this); }
+    @Override
+    public String toString() {
+        return health.isDead() ? "X" : String.valueOf(tileChar);
+    }
 
     public String description() {
         StringBuilder sb = new StringBuilder()
@@ -81,38 +93,8 @@ public abstract class Player extends Unit implements HeroicUnit {
                 .append(",  Experience: ").append(xp.getXP()).append('/').append(xp.nextThreshold())
                 .append(",  Level: ").append(xp.getLevel());
 
-        if (ability != null && ability.cooldownMax > 0) { // not have cooldown
-            sb.append("  Cooldown: ")
-                    .append(ability.turnsLeft())
-                    .append('/')
-                    .append(ability.cooldownMax);
-        }
-
-        if (this instanceof ManaUser mu)
-            sb.append(",  Mana: ")
-                    .append(mu.getMana().get()).append('/')
-                    .append(mu.getMana().getPool());
-
-        if (this instanceof Rogue r)
-            sb.append(",  Energy: ")
-                    .append(r.getEnergy().get()).append('/')
-                    .append(r.getEnergy().getPool());
-
-        if (this instanceof Mage m)
-            sb.append(",  SpellPower: ").append(m.getSpellPower());
-
-        if (this instanceof Hunter h) {
-            sb.append(",  Arrows: ").append(h.getArrows());
-            sb.append(",  Range: ").append(h.getRange());
-        }
-
         return sb.toString();
     }
 
     public void onTick() { }
-
-    @Override
-    public String toString() {
-        return health.isDead() ? "X" : String.valueOf(tileChar);
-    }
 }

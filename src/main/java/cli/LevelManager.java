@@ -6,7 +6,6 @@ import java.util.List;
 
 import tiles.*;
 import units.player.*;
-import units.enemy.Enemy;
 import util.UnitFactory;
 import game.GameManager;
 import values.Position;
@@ -55,16 +54,18 @@ public final class LevelManager {
                 else {
                     Tile t = UnitFactory.tileFromChar(c, pos);
                     board[y][x] = (t == null) ? new Empty(pos) : t;
-                    if (t instanceof Enemy e) gm.addEnemy(e);
+                    gm.registerTile(t);
                 }
             }
         }
 
         if (gm.getPlayer() == null)
-            throw new IllegalStateException("Level file has no @ spawn");
+            throw new IOException("Player not found in level " + lvl);
 
         gm.loadBoard(board);
         lvl++;
         return true;
     }
+
+    public int getCurrentLevel() { return lvl - 1; }
 }

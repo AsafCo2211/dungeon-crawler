@@ -18,6 +18,11 @@ public final class Mage extends Player implements ManaUser {
         setAbility(new Blizzard(manaCost, hits, range, GameManager.I()::msg));
     }
 
+    @Override
+    public void accept(IPlayerVisitor v) {
+        v.visit(this);
+    }
+
     @Override public Mana getMana() { return mana; }
     public int  getSpellPower()     { return spellPower; }
 
@@ -29,9 +34,13 @@ public final class Mage extends Player implements ManaUser {
     @Override
     public void levelUp(int lvl) {
         super.levelUp(lvl);
-
         mana.increasePool(25 * lvl);
         mana.regen(mana.get() + mana.getPool() / 4);
         spellPower += 10 * lvl;
+    }
+
+    @Override
+    public String description() {
+        return super.description() + String.format(",  Mana: %d/%d,  SpellPower: %d", getMana().get(), getMana().getPool(), getSpellPower());
     }
 }

@@ -66,7 +66,6 @@ public final class Game {
             }
 
             if (player.getHealth().isDead()) {
-                System.out.println("You died! Game over.");
                 break;
             }
         }

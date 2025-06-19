@@ -5,7 +5,7 @@ import game.GameManager;
 import values.Position;
 import values.Mana;   // reused as Energy
 
-public final class Rogue extends Player  {
+public final class Rogue extends Player {
 
     private final Mana energy;
     private final int MAX_ENERGY = 100;
@@ -15,6 +15,11 @@ public final class Rogue extends Player  {
         this.energy = new Mana(MAX_ENERGY);
 
         setAbility(new FanOfKnives(cost, GameManager.I()::msg));
+    }
+
+    @Override
+    public void accept(IPlayerVisitor v) {
+        v.visit(this);
     }
 
     public Mana getEnergy() { return energy; }
@@ -27,8 +32,12 @@ public final class Rogue extends Player  {
     @Override
     public void levelUp(int lvl) {
         super.levelUp(lvl);
-
         energy.refillFull();
         attack += 3 * lvl;
+    }
+
+    @Override
+    public String description() {
+        return super.description() + String.format(",  Energy: %d/%d", getEnergy().get(), getEnergy().getPool());
     }
 }

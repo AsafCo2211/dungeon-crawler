@@ -16,10 +16,9 @@ public class Monster extends Enemy {
         Player player = gm.getPlayer();
         if (player == null) return;
 
-        if (gm.tileAt(getPosition().translate(1, 0)) instanceof Player ||
-                gm.tileAt(getPosition().translate(-1, 0)) instanceof Player ||
-                gm.tileAt(getPosition().translate(0, 1)) instanceof Player ||
-                gm.tileAt(getPosition().translate(0, -1)) instanceof Player) {
+        Position pPos = player.getPosition();
+        Position mPos = this.getPosition();
+        if ((Math.abs(pPos.getX() - mPos.getX()) + Math.abs(pPos.getY() - mPos.getY())) == 1) {
             hitPlayer(player);
             return;
         }
@@ -45,11 +44,10 @@ public class Monster extends Enemy {
                 case 0 -> pos.translate( 1, 0);
                 case 1 -> pos.translate(-1, 0);
                 case 2 -> pos.translate( 0, 1);
-                case 3 -> pos.translate( 0, -1);
+                case 3 -> pos.translate( 0,-1);
                 default -> pos;
             };
         }
-
         return next;
     }
 }

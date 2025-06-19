@@ -2,15 +2,13 @@ package abilities;
 
 import game.GameManager;
 import game.callbacks.MessageCallback;
-import units.Unit;
 import units.enemy.Enemy;
-import units.player.ManaUser;
-import units.player.Mage;
+import units.player.*;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class Blizzard extends Ability {
+public final class Blizzard extends Ability implements IPlayerVisitor {
 
     private final int manaCost;
     private final int hits;
@@ -24,8 +22,12 @@ public final class Blizzard extends Ability {
     }
 
     @Override
-    public void cast(Unit owner) {
-        ManaUser m = (ManaUser) owner;
+    public void cast(Player player) {
+        player.accept(this);
+    }
+
+    @Override
+    public void visit(Mage m) {
         if (!m.getMana().spend(manaCost)) {
             GameManager.I().msg("Not enough mana!");
             return;
@@ -33,19 +35,34 @@ public final class Blizzard extends Ability {
 
         int hitCnt = 0;
         while (hitCnt < hits) {
-            List<Enemy> pool = GameManager.I().getEnemiesWithin(owner.getPosition(), range);
+            List<Enemy> pool = GameManager.I().getEnemiesWithin(m.getPosition(), range);
 
             if (pool.isEmpty()) break;
 
             Enemy e = pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
-            int dmg = ((Mage) owner).getSpellPower();
+            int dmg = m.getSpellPower(); // Safely access getSpellPower()
             int def = e.rollDefense();
             int taken = Math.max(0, dmg - def);
             e.takeTrueDamage(taken);
 
-            GameManager.I().msg(owner.getName() + " rolled " + dmg + " spell power; " + e.getName() + " rolled " + def + " defence; " + owner.getName() + " dealt " + taken);
+            GameManager.I().msg(m.getName() + " rolled " + dmg + " spell power; " + e.getName() + " rolled " + def + " defence; " + m.getName() + " dealt " + taken);
 
             hitCnt++;
         }
+    }
+
+    @Override
+    public void visit(Warrior w) {
+        GameManager.I().msg("A Warrior cannot cast Blizzard!");
+    }
+
+    @Override
+    public void visit(Rogue r) {
+        GameManager.I().msg("A Rogue cannot cast Blizzard!");
+    }
+
+    @Override
+    public void visit(Hunter h) {
+        GameManager.I().msg("A Hunter cannot cast Blizzard!");
     }
 }

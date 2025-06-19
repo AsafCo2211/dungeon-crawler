@@ -4,6 +4,34 @@ import units.player.*;
 import values.Health;
 import values.Experience;
 
+class MenuStatVisitor implements IPlayerVisitor {
+    private String tailA = "";
+    private String tailB = "";
+
+    public String getTailA() { return tailA; }
+    public String getTailB() { return tailB; }
+
+    @Override
+    public void visit(Warrior w) {
+        tailA = "Cooldown: " + w.getAbility().turnsLeft() + "/" + w.getAbility().cooldownMax;
+    }
+    @Override
+    public void visit(Mage m) {
+        tailA = "Mana: " + m.getMana().get() + "/" + m.getMana().getPool();
+        tailB = "Spell Power: " + m.getSpellPower();
+    }
+    @Override
+    public void visit(Rogue r) {
+        tailA = "Energy: " + r.getEnergy().get() + "/" + r.getEnergy().getPool();
+    }
+    @Override
+    public void visit(Hunter h) {
+        tailA = "Arrows: " + h.getArrows();
+        tailB = "Range: "  + h.getRange();
+    }
+}
+
+
 public final class MenuFormatter {
 
     private static final int W_IDX   = 2;
@@ -11,7 +39,6 @@ public final class MenuFormatter {
     private static final int W_STAT  = 17;
     private static final int W_LEVEL = 8;
     private static final int W_XP    = 22;
-
     private static final int W_TAIL_A = 24;
 
     private MenuFormatter() {}
@@ -29,34 +56,20 @@ public final class MenuFormatter {
         Experience xp = p.getXP();
         sb.append(pad("Level: " + xp.getLevel(), W_LEVEL)).append(pad("Experience: " + xp.getXP() + "/" + xp.nextThreshold(), W_XP));
 
-        String tailA, tailB = "";
-
-        if (p instanceof Warrior w) {
-            tailA = "Cooldown: " + w.getAbility().turnsLeft() + "/" + w.getAbility().cooldownMax;
-
-        } else if (p instanceof Mage m) {
-            tailA = "Mana: " + m.getMana().get() + "/" + m.getMana().getPool();
-            tailB = "Spell Power: " + m.getSpellPower();
-
-        } else if (p instanceof Rogue r) {
-            tailA = "Energy: " + r.getEnergy().get() + "/" + r.getEnergy().getPool();
-
-        } else if (p instanceof Hunter h) {
-            tailA = "Arrows: " + h.getArrows();
-            tailB = "Range: "  + h.getRange();
-
-        } else {
-            tailA = ""; // should not happen
-        }
+        MenuStatVisitor visitor = new MenuStatVisitor();
+        p.accept(visitor);
+        String tailA = visitor.getTailA();
+        String tailB = visitor.getTailB();
 
         sb.append(pad(tailA, W_TAIL_A));
-        if (!tailB.isEmpty())
+        if (!tailB.isEmpty()) {
             sb.append(tailB);
+        }
 
         return sb.toString();
     }
 
-    private static String pad(String s, int w) {
-        return s.length() >= w ? s : s + " ".repeat(w - s.length());
+    private static String pad(String text, int width) {
+        return String.format("%-" + width + "s", text);
     }
 }

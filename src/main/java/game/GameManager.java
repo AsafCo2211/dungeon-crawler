@@ -2,10 +2,13 @@ package game;
 
 import tiles.Empty;
 import tiles.Tile;
+import tiles.TileVisitor;
+import tiles.Wall;
 import values.Position;
 import units.enemy.Enemy;
 import units.Unit;
 import units.player.Player;
+import units.UnitVisitor;
 
 import game.callbacks.MessageCallback;
 import game.callbacks.DeathCallback;
@@ -34,6 +37,42 @@ public final class GameManager {
 
     private final StringBuilder roundLog = new StringBuilder();
 
+    public void gameTick() {
+        if (player != null)
+            player.onTick();
+
+        enemyCtl.runAI();
+    }
+
+    private class UnitDeathHandler implements UnitVisitor {
+        @Override
+        public void visit(Player p) {
+            msg("You have been defeated. GAME OVER.");
+        }
+
+        @Override
+        public void visit(Enemy e) {
+            enemies.remove(e);
+            death.onDeath(e);
+            setTile(e.getPosition(), new Empty(e.getPosition()));
+            msg(e.getName() + " was defeated.");
+            player.gainXP(e.getExpValue());
+            msg(player.getName() + " gained " + e.getExpValue() + " EX from " + e.getName());
+        }
+    }
+
+    private class EnemyAdder implements TileVisitor {
+        @Override public void visit(Empty e) {}
+        @Override public void visit(Wall w) {}
+        @Override public void visit(Player p) {}
+
+        @Override
+        public void visit(Enemy e) {
+            addEnemy(e);
+        }
+    }
+
+
     private GameManager(ValueGenerator rng) { this.rng = rng; }
 
     public GameManager setCallbacks(MessageCallback m, DeathCallback d) {
@@ -47,8 +86,15 @@ public final class GameManager {
 
     public List<Enemy> getEnemies() { return enemies; }
     public void addEnemy(Enemy e) { enemies.add(e); }
-    public void removeEnemy(Unit u) {
-        if (u instanceof Enemy e) { enemies.remove(e); death.onDeath(e); setTile(e.getPosition(), new Empty(e.getPosition()));}
+
+    public void handleUnitDeath(Unit u) {
+        u.accept(new UnitDeathHandler());
+    }
+
+    public void registerTile(Tile t) {
+        if (t != null) {
+            t.accept(new EnemyAdder());
+        }
     }
 
     public BoardController getBoardController() { return boardCtl; }
@@ -69,18 +115,13 @@ public final class GameManager {
     }
 
     public void msg(String text) {
-        roundLog.append(text).append('\n');
+        roundLog.append(text).append("\n");
     }
+
+
     public String flushRoundMessages() {
-        String s = roundLog.toString();
+        String messages = roundLog.toString();
         roundLog.setLength(0);
-        return s;
-    }
-
-    public void gameTick() {
-        if (player != null)
-            player.onTick();
-
-        enemyCtl.runAI();
+        return messages;
     }
 }

@@ -12,6 +12,11 @@ public final class Warrior extends Player {
     }
 
     @Override
+    public void accept(IPlayerVisitor v) {
+        v.visit(this);
+    }
+
+    @Override
     public void onTick() {
         if (ability.turnsLeft() > 0) ability.tick();
     }
@@ -21,10 +26,14 @@ public final class Warrior extends Player {
         super.levelUp(lvl);
 
         health.increasePool(5 * lvl);
-
         attack  += 2 * lvl;
         defense += 1 * lvl;
 
         resetAbilityCooldown();
+    }
+
+    @Override
+    public String description() {
+        return super.description() + String.format(",  Cooldown: %d/%d", getAbility().turnsLeft(), getAbility().cooldownMax);
     }
 }

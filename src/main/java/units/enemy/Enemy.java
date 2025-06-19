@@ -4,6 +4,7 @@ import game.GameManager;
 import values.Position;
 import tiles.TileVisitor;
 import units.Unit;
+import units.UnitVisitor;
 import units.player.Player;
 
 public abstract class Enemy extends Unit {
@@ -20,6 +21,9 @@ public abstract class Enemy extends Unit {
     @Override
     public void accept(TileVisitor visitor) { visitor.visit(this); }
 
+    @Override
+    public void accept(UnitVisitor v) { v.visit(this); }
+
     public int getExpValue() { return expValue; }
     public int distanceTo(Position p) { return pos.distance(p); }
 
@@ -27,6 +31,9 @@ public abstract class Enemy extends Unit {
     public void visit(units.player.Player player) {
         hitPlayer(player);
     }
+
+    @Override
+    public void visit(Enemy e) { }
 
     protected void hitPlayer(Player p) {
         GameManager.I().msg(name + " engaged into a battle with " + p.getName());
@@ -44,14 +51,4 @@ public abstract class Enemy extends Unit {
     }
 
     public void act() { }
-
-    @Override
-    protected void die() {
-        GameManager gm = GameManager.I();
-
-        gm.removeEnemy(this);
-        GameManager.I().msg("the player gained " + this.getExpValue() + " experience from killing " + this.getName() + "\n");
-        GameManager.I().getPlayer().gainXP(expValue);
-        //super.die();
-    }
 }

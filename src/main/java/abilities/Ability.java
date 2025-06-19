@@ -1,8 +1,8 @@
 package abilities;
 
 import game.GameManager;
-import units.Unit;
 import game.callbacks.MessageCallback;
+import units.player.Player;
 
 public abstract class Ability {
     protected final MessageCallback out;
@@ -24,7 +24,7 @@ public abstract class Ability {
 
     public void reset() { cooldownLeft = 0; }
 
-    public abstract void cast(Unit owner);
+    public abstract void cast(Player p);
 
     protected boolean startCooldown() {
         if (!ready()) {
