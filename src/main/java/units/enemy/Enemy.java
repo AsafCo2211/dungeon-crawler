@@ -1,6 +1,7 @@
 package units.enemy;
 
 import game.GameManager;
+import tiles.Empty;
 import tiles.Position;
 import tiles.TileVisitor;
 import units.Unit;
@@ -9,16 +10,19 @@ import units.player.Player;
 public abstract class Enemy extends Unit {
 
     protected final int visionRange;
+    protected final int expValue;
 
-    public Enemy(String n, char sym, Position pos, int hp, int att, int def, int vision) {
+    public Enemy(String n, char sym, Position pos, int hp, int att, int def, int vision, int expValue) {
         super(n, sym, pos, hp, att, def);
         this.visionRange = vision;
+        this.expValue = expValue;
     }
 
     @Override
     public void accept(TileVisitor visitor) { visitor.visit(this); }
 
-    public int distanceTo(Position p) { return movement.pos().distance(p); }
+    public int getExpValue() { return expValue; }
+    public int distanceTo(Position p) { return pos.distance(p); }
 
     @Override
     public void visit(units.player.Player player) {
@@ -40,16 +44,15 @@ public abstract class Enemy extends Unit {
         p.takeTrueDamage(dmg);
     }
 
-
     public void act() { }
 
     @Override
     protected void die() {
         GameManager gm = GameManager.I();
 
-        gm.msg(name + " died!");
         gm.removeEnemy(this);
-
-        super.die();
+        GameManager.I().msg("the player gained " + this.getExpValue() + " experience from killing " + this.getName() + "\n");
+        GameManager.I().getPlayer().gainXP(expValue);
+        //super.die();
     }
 }

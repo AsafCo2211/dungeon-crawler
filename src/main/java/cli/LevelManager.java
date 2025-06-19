@@ -45,7 +45,7 @@ public final class LevelManager {
                         player = UnitFactory.createPlayer(playerIdx, pos);
                     } else {
                         player = gm.getPlayer();
-                        player.getMovement().move(pos);
+                        player.move(pos);
                     }
 
                     board[y][x] = player;

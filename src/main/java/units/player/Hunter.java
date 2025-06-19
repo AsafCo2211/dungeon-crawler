@@ -22,8 +22,9 @@ public final class Hunter extends Player {
             GameManager.I().msg(name + " has no arrows!");
             return;
         }
-        Enemy target = GameManager.I().getEnemiesWithin(movement.pos(), range).stream().min((e1, e2) ->
-                Integer.compare(e1.distanceTo(movement.pos()), e2.distanceTo(movement.pos()))).orElse(null);
+
+        Enemy target = GameManager.I().getEnemiesWithin(pos, range).stream().min((e1, e2) ->
+                Integer.compare(e1.distanceTo(pos), e2.distanceTo(pos))).orElse(null);
 
         if (target == null) {
             GameManager.I().msg(name + " has no target in range.");
@@ -35,7 +36,7 @@ public final class Hunter extends Player {
 
         int attRoll = attack;
         int defRoll = target.rollDefense();
-        int dmg     = Math.max(0, attRoll - defRoll);
+        int dmg = Math.max(0, attRoll - defRoll);
 
         GameManager.I().msg(name + " rolled " + attRoll + " attack points");
         GameManager.I().msg(target.getName() + " rolled " + defRoll + " defence points");
@@ -45,12 +46,11 @@ public final class Hunter extends Player {
     }
 
     @Override
-    protected void levelUp() {
-        super.levelUp();
-        int lvl = xp.getLevel();
+    public void levelUp(int lvl) {
+        super.levelUp(lvl);
 
         arrows += 10 * lvl;
-        attack  += 2 * lvl;
+        attack += 2 * lvl;
         defense += 1 * lvl;
     }
 
@@ -64,4 +64,5 @@ public final class Hunter extends Player {
     }
 
     public int getArrows() { return arrows; }
+    public int getRange() { return range; }
 }

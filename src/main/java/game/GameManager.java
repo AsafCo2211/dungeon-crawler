@@ -1,5 +1,6 @@
 package game;
 
+import tiles.Empty;
 import tiles.Tile;
 import tiles.Position;
 import units.enemy.Enemy;
@@ -23,7 +24,7 @@ public final class GameManager {
 
     private final ValueGenerator rng;
     private MessageCallback out = s -> {};
-    private DeathCallback   death = u -> {};
+    private DeathCallback death = u -> {};
 
     private final List<Enemy> enemies = new ArrayList<>();
     private Player player;
@@ -37,7 +38,7 @@ public final class GameManager {
     private GameManager(ValueGenerator rng) { this.rng = rng; }
 
     public GameManager setCallbacks(MessageCallback m, DeathCallback d) {
-        out   = m != null ? m : s -> {};
+        out = m != null ? m : s -> {};
         death = d != null ? d : u -> {};
         return this;
     }
@@ -48,7 +49,7 @@ public final class GameManager {
     public List<Enemy> getEnemies() { return enemies; }
     public void addEnemy(Enemy e) { enemies.add(e); }
     public void removeEnemy(Unit u) {
-        if (u instanceof Enemy e) { enemies.remove(e); death.onDeath(e); }
+        if (u instanceof Enemy e) { enemies.remove(e); death.onDeath(e); setTile(e.getPosition(), new Empty(e.getPosition()));}
     }
 
     public BoardController getBoardController() { return boardCtl; }
@@ -82,9 +83,5 @@ public final class GameManager {
             player.onTick();
 
         enemyCtl.runAI();
-    }
-
-    public static GameManager bootstrap() {
-        return create(new RandomGenerator());
     }
 }

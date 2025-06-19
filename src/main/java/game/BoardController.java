@@ -15,11 +15,4 @@ public class BoardController {
             mover.visit((tiles.Empty) dst);
         }
     }
-
-    public void swapTiles(Position from, Position to, Tile mover) {
-        GameManager gm = GameManager.I();
-
-        gm.setTile(from, new Empty(from));
-        gm.setTile(to, mover);
-    }
 }

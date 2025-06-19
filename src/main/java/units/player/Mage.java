@@ -27,9 +27,8 @@ public final class Mage extends Player implements ManaUser {
     }
 
     @Override
-    protected void levelUp() {
-        int lvl = xp.getLevel();
-        super.levelUp();
+    public void levelUp(int lvl) {
+        super.levelUp(lvl);
 
         mana.increasePool(25 * lvl);
         mana.regen(mana.get() + mana.getPool() / 4);

@@ -23,7 +23,7 @@ public final class Game {
         Map<Character, Action> keys = InputProvider.promptForMapping();
         InputProvider input = new InputProvider(keys);
 
-        GameManager.create(new RandomGenerator()).setCallbacks(System.out::println, u -> System.out.println(u.getName() + " died"));
+        GameManager.create(new RandomGenerator()).setCallbacks(System.out::println, u -> System.out.println("\n" + u.getName() + " died" + "\n"));
 
         int heroIdx = promptHero();
         LevelManager lm = new LevelManager(Path.of(args[0]), heroIdx);
@@ -38,7 +38,7 @@ public final class Game {
         Player player = GameManager.I().getPlayer();
 
         while (true) {
-            System.out.print("your turn:\n\n");
+            System.out.print("your turn:\n");
             Action act = input.nextAction();
 
             switch (act) {
@@ -49,24 +49,26 @@ public final class Game {
                 default -> { /* ignore */ }
             }
 
-            System.out.println("\nenemies turn:\n");
+            if (!GameManager.I().getEnemies().isEmpty()) {
+                System.out.println("enemies turn:\n");
+                GameManager.I().gameTick();
+            }
+
             render(null);
 
-            if (player.getHealth().isDead()) {
-                System.out.println("You died – game over.");
-                render(null);
-                break;
-            }
             if (GameManager.I().getEnemies().isEmpty()) {
                 System.out.println("*** LEVEL CLEARED ***\n");
                 if (!lm.loadNextLevel()) {
                     System.out.println("Congratulations – all levels completed!");
                     break;
                 }
-                render(null);
+                 render(null);
             }
 
-            GameManager.I().gameTick();
+            if (player.getHealth().isDead()) {
+                System.out.println("You died! Game over.");
+                break;
+            }
         }
     }
 
@@ -76,7 +78,8 @@ public final class Game {
         System.out.println("please choose your player:\n");
         for (int i = 0; i < list.size(); i++) {
             Player h = list.get(i);
-            System.out.println((i + 1) + ". " + h.description());
+
+            System.out.println(MenuFormatter.line(i + 1, h));
             System.out.println();
         }
 
@@ -94,9 +97,11 @@ public final class Game {
         return idx;
     }
 
+
     private static void handleMove(Action a) {
         Player p = GameManager.I().getPlayer();
-        Position pos = p.getMovement().pos();
+        Position pos = p.getPosition();
+
         Position to = switch (a) {
             case UP -> pos.translate( 0, -1);
             case DOWN  -> pos.translate( 0,  1);
@@ -114,6 +119,7 @@ public final class Game {
         System.out.print(GameManager.I().flushRoundMessages());
         System.out.println();
     }
+
     private static void printBoard() {
         GameManager gm = GameManager.I();
         OUTER:

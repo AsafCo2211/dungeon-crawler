@@ -6,3 +6,5 @@ public final class RandomGenerator implements ValueGenerator {
         return ThreadLocalRandom.current().nextInt(min, max+1);
     }
 }
+
+

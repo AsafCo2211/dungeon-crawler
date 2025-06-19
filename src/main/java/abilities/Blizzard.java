@@ -28,13 +28,14 @@ public final class Blizzard extends Ability {
     public void cast(Unit owner) {
         ManaUser m = (ManaUser) owner;
         if (!m.getMana().spend(manaCost)) {
-            out.msg("Not enough mana!");
+            GameManager.I().msg("Not enough mana!");
             return;
         }
 
         int hitCnt = 0;
         while (hitCnt < hits) {
-            List<Enemy> pool = GameManager.I().getEnemiesWithin(owner.getMovement().pos(), range);
+            List<Enemy> pool = GameManager.I().getEnemiesWithin(owner.getPosition(), range);
+
             if (pool.isEmpty()) break;
 
             Enemy e = pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
@@ -43,7 +44,7 @@ public final class Blizzard extends Ability {
             int taken = Math.max(0, dmg - def);
             e.takeTrueDamage(taken);
 
-            out.msg(owner.getName() + " rolled " + dmg + " spell power; " + e.getName() + " rolled " + def + " defence; " + owner.getName() + " dealt " + taken);
+            GameManager.I().msg(owner.getName() + " rolled " + dmg + " spell power; " + e.getName() + " rolled " + def + " defence; " + owner.getName() + " dealt " + taken);
 
             hitCnt++;
         }

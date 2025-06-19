@@ -1,5 +1,6 @@
 package abilities;
 
+import game.GameManager;
 import units.Unit;
 import game.callbacks.MessageCallback;
 
@@ -27,7 +28,7 @@ public abstract class Ability {
 
     protected boolean startCooldown() {
         if (!ready()) {
-            out.msg(name + " ability on cooldown (" + cooldownLeft + ")");
+            GameManager.I().msg(name + " ability on cooldown (" + cooldownLeft + ")");
             return false;
         }
         cooldownLeft = cooldownMax;

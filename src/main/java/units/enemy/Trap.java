@@ -5,17 +5,13 @@ import units.player.Player;
 import game.GameManager;
 
 public class Trap extends Enemy {
-
-    private final int expValue;
     private final int visibleFor;
     private final int invisibleFor;
-
-    private int timer;             // counts down to toggle
+    private int timer;
     private boolean visible;
 
-    public Trap(String name, char symbol, Position pos, int hp, int attack, int defense, int expValue, int vis, int invis) {
-        super(name, symbol, pos, hp, attack, defense, 1);
-        this.expValue = expValue;
+    public Trap(String name, char symbol, Position pos, int hp, int attack, int defense, int vis, int invis, int xp) {
+        super(name, symbol, pos, hp, attack, defense, 1, xp);
         this.visibleFor = vis;
         this.invisibleFor = invis;
         this.visible = true;
@@ -31,17 +27,12 @@ public class Trap extends Enemy {
 
         Player p = GameManager.I().getPlayer();
         if (p == null) return;
-
-        if (distanceTo(p.getMovement().pos()) < 2) {
+        if (distanceTo(p.getPosition()) < 2) {
             int dmg = rollAttack();
             p.takeTrueDamage(dmg);
             GameManager.I().msg(name + " ambushes " + p.getName() + " for " + dmg);
         }
-    }
 
-    @Override protected void die() {
-        super.die();
-        GameManager.I().getPlayer().gainXP(expValue);
     }
 
     public char getTileChar() {

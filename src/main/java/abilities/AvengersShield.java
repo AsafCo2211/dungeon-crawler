@@ -21,15 +21,15 @@ public final class AvengersShield extends Ability {
         Warrior w = (Warrior) owner;
 
         if (cooldownLeft > 0) {
-            out.msg(w.getName() + " – ability on cooldown (" + cooldownLeft + ")");
+            GameManager.I().msg(w.getName() + " – ability on cooldown (" + cooldownLeft + ")");
             return;
         }
 
         cooldownLeft = cooldownMax;
 
-        List<Enemy> pool = GameManager.I().getEnemiesWithin(w.getMovement().pos(), 3);
+        List<Enemy> pool = GameManager.I().getEnemiesWithin(w.getPosition(), 3);
         if (pool.isEmpty()) {
-            out.msg("No target in range!");
+            GameManager.I().msg("No target in range!");
             return;
         }
 

@@ -9,8 +9,8 @@ public class Boss extends Enemy implements HeroicUnit {
     private final int abilityFreq;
     private int combatTicks = 0;
 
-    public Boss(String n, char sym, Position pos, int hp, int atk, int def, int vision, int abilityFreq) {
-        super(n, sym, pos, hp, atk, def, vision);
+    public Boss(String n, char sym, Position pos, int hp, int atk, int def, int vision, int abilityFreq, int xp) {
+        super(n, sym, pos, hp, atk, def, vision, xp);
         this.abilityFreq = abilityFreq;
     }
 
@@ -21,7 +21,7 @@ public class Boss extends Enemy implements HeroicUnit {
         if (player == null || player.getHealth().isDead())
             return;
 
-        int dist = distanceTo(player.getMovement().pos());
+        int dist = distanceTo(player.getPosition());
 
         if (dist <= visionRange) {
             if (combatTicks == abilityFreq) {
@@ -32,37 +32,38 @@ public class Boss extends Enemy implements HeroicUnit {
             combatTicks = 0;
         }
 
-        if (dist < visionRange) {
-            int dx = Integer.compare(player.getMovement().pos().getX(), movement.pos().getX());
-            int dy = Integer.compare(player.getMovement().pos().getY(), movement.pos().getY());
+        if (dist <= visionRange) {
+            int dx = Integer.compare(player.getPosition().getX(), pos.getX());
+            int dy = Integer.compare(player.getPosition().getY(), pos.getY());
 
-            Position next = movement.pos().translate(Math.abs(dx) > Math.abs(dy) ? dx : 0, Math.abs(dy) >= Math.abs(dx) ? dy : 0);
+            Position next = pos.translate(Math.abs(dx) > Math.abs(dy) ? dx : 0, Math.abs(dy) >= Math.abs(dx) ? dy : 0);
 
             gm.getBoardController().move(this, next);
-        } else {
-            int dir = gm.roll(0, 4);
-            Position next = switch (dir) {
-                case 0 -> movement.pos().translate( 1,  0);
-                case 1 -> movement.pos().translate(-1,  0);
-                case 2 -> movement.pos().translate( 0,  1);
-                case 3 -> movement.pos().translate( 0, -1);
-                default -> movement.pos();
-            };
-            gm.getBoardController().move(this, next);
+            return;
         }
+
+        int dir = gm.roll(0, 4);
+        Position next = switch (dir) {
+            case 0 -> pos.translate( 1, 0);
+            case 1 -> pos.translate(-1, 0);
+            case 2 -> pos.translate( 0, 1);
+            case 3 -> pos.translate( 0, -1);
+            default -> pos;
+        };
+        gm.getBoardController().move(this, next);
     }
 
     @Override
     public void castAbility() {
         var player = GameManager.I().getPlayer();
         if (player == null) return;
-        if (distanceTo(player.getMovement().pos()) > visionRange) return;
+        if (distanceTo(player.getPosition()) > visionRange) return;
 
         GameManager.I().msg(name + " casts Shoebodybop!");
 
         int attRoll = attack;
         int defRoll = player.rollDefense();
-        int dmg     = Math.max(0, attRoll - defRoll);
+        int dmg = Math.max(0, attRoll - defRoll);
 
         GameManager.I().msg(name + " rolled " + attRoll + " attack points");
         GameManager.I().msg(player.getName() + " rolled " + defRoll + " defence points");

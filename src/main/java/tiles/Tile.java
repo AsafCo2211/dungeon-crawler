@@ -10,7 +10,6 @@ public abstract class Tile {
     }
 
     public Position getPosition() { return pos; }
-    public void setPosition(Position p) { pos = p;   }
     public char getTileChar() { return tileChar; }
 
     public abstract void accept(TileVisitor v);

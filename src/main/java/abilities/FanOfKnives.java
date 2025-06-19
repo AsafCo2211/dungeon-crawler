@@ -21,12 +21,12 @@ public final class FanOfKnives extends Ability {
 
         Rogue r = (Rogue) owner;
         if (!r.getEnergy().spend(cost)) {
-            out.msg("Not enough energy!");
+            GameManager.I().msg("Not enough energy!");
             return;
         }
 
-        GameManager.I().getEnemiesWithin(r.getMovement().pos(), 2).forEach(e -> e.takeTrueDamage(r.getAttack()));
+        GameManager.I().getEnemiesWithin(r.getPosition(), 2).forEach(e -> e.takeTrueDamage(r.getAttack()));
 
-        out.msg(r.getName() + " unleashes Fan of Knives!");
+        GameManager.I().msg(r.getName() + " unleashes Fan of Knives!");
     }
 }

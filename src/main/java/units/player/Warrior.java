@@ -17,9 +17,8 @@ public final class Warrior extends Player {
     }
 
     @Override
-    protected void levelUp() {
-        super.levelUp();
-        int lvl = xp.getLevel();
+    public void levelUp(int lvl) {
+        super.levelUp(lvl);
 
         health.increasePool(5 * lvl);
 

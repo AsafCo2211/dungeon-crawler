@@ -6,9 +6,11 @@ import tiles.*;
 import units.HeroicUnit;
 import units.Unit;
 import units.enemy.Enemy;
+import values.Experience;
 
 public abstract class Player extends Unit implements HeroicUnit {
     protected Ability ability;
+    protected final Experience xp = new Experience();
 
     protected Player(String name, char symbol, Position pos, int hp, int atk, int def) {
         super(name, symbol, pos, hp, atk, def);
@@ -17,23 +19,25 @@ public abstract class Player extends Unit implements HeroicUnit {
     public void setAbility(Ability a) { ability = a; }
     public void castAbility() { if (ability != null) ability.cast(this); }
     public void resetAbilityCooldown() { if (ability != null) ability.reset(); }
+    public Experience getXP() { return xp; }
+    public Ability getAbility() { return ability; }
 
     public void gainXP(int amount) {
-        int beforeLvl = xp.getLevel();
-        boolean leveled = xp.gain(amount);
-        if (leveled) {
-            levelUp();
-            GameManager.I().msg("=== " + name + " reached level " + xp.getLevel() + " ===");
+        int before = xp.getLevel();
+        xp.gain(amount);
+        int after = xp.getLevel();
+
+        for (int lvl = before + 1; lvl <= after; lvl++) {
+            levelUp(lvl);
+            GameManager.I().msg("=== " + name + " reached level " + lvl + " ===");
         }
     }
 
-    protected void levelUp() {
-        int lvl = xp.getLevel();
-
+    public void levelUp(int lvl) {
         health.increasePool(10 * lvl);
         health.healFull();
 
-        attack  += 4 * lvl;
+        attack += 4 * lvl;
         defense += 1 * lvl;
     }
 
@@ -47,7 +51,7 @@ public abstract class Player extends Unit implements HeroicUnit {
 
         int attRoll = rollAttack();
         int defRoll = enemy.rollDefense();
-        int dmg     = Math.max(0, attRoll - defRoll);
+        int dmg = Math.max(0, attRoll - defRoll);
 
         GameManager.I().msg(name + " rolled " + attRoll + " attack points");
         GameManager.I().msg(enemy.getName() + " rolled " + defRoll + " defence points");
@@ -57,14 +61,11 @@ public abstract class Player extends Unit implements HeroicUnit {
         enemy.takeTrueDamage(dmg);
 
         if (enemy.getHealth().isDead()) {
-            GameManager.I().msg(enemy.getName() + " was killed by you\n");
-            gainXP(enemy.getXP().getXP());
-
-            Position from = movement.pos();
-            Position to = enemy.getMovement().pos();
+            Position from = pos;
+            Position to = enemy.getPosition();
             GameManager.I().setTile(from, new Empty(from));
-            GameManager.I().setTile(to,   this);
-            movement.move(to);
+            GameManager.I().setTile(to, this);
+            move(to);
         }
     }
 
@@ -77,9 +78,9 @@ public abstract class Player extends Unit implements HeroicUnit {
                 .append(",  Attack: ").append(attack)
                 .append(",  Defence: ").append(defense)
                 .append(",  Experience: ").append(xp.getXP()).append('/').append(xp.nextThreshold())
-                .append(",  level: ").append(xp.getLevel());
+                .append(",  Level: ").append(xp.getLevel());
 
-        if (ability != null && ability.cooldownMax > 0) {
+        if (ability != null && ability.cooldownMax > 0) { // not have cooldown
             sb.append("  Cooldown: ")
                     .append(ability.turnsLeft())
                     .append('/')
@@ -99,8 +100,10 @@ public abstract class Player extends Unit implements HeroicUnit {
         if (this instanceof Mage m)
             sb.append(",  SpellPower: ").append(m.getSpellPower());
 
-        if (this instanceof Hunter h)
+        if (this instanceof Hunter h) {
             sb.append(",  Arrows: ").append(h.getArrows());
+            sb.append(",  Range: ").append(h.getRange());
+        }
 
         return sb.toString();
     }
