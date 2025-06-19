@@ -1,6 +1,6 @@
 package units.enemy;
 
-import tiles.Position;
+import values.Position;
 import units.player.Player;
 import game.GameManager;
 
@@ -17,6 +17,8 @@ public class Trap extends Enemy {
         this.visible = true;
         this.timer = 0;
     }
+
+    public boolean isVisible() { return visible; }
 
     @Override public void act() {
         if (--timer == 0) {

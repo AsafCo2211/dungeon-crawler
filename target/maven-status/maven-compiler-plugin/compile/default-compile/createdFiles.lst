@@ -10,6 +10,7 @@ tiles\Empty.class
 game\EnemyController.class
 units\player\Warrior.class
 tiles\Wall.class
+cli\MenuFormatter.class
 abilities\FanOfKnives.class
 units\player\Mage.class
 units\Unit.class

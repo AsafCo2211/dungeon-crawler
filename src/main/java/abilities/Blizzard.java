@@ -16,12 +16,11 @@ public final class Blizzard extends Ability {
     private final int hits;
     private final int range;
 
-    public Blizzard(int manaCost, int hits, int range, int cd, MessageCallback cb) {
+    public Blizzard(int manaCost, int hits, int range, MessageCallback cb) {
         super("Blizzard", cb);
         this.manaCost = manaCost;
         this.hits = hits;
         this.range = range;
-        this.cooldownMax = cd;
     }
 
     @Override

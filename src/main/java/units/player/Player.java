@@ -7,6 +7,7 @@ import units.HeroicUnit;
 import units.Unit;
 import units.enemy.Enemy;
 import values.Experience;
+import values.Position;
 
 public abstract class Player extends Unit implements HeroicUnit {
     protected Ability ability;

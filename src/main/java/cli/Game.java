@@ -3,7 +3,7 @@ package cli;
 import cli.InputProvider.Action;
 import game.GameManager;
 import game.generator.RandomGenerator;
-import tiles.Position;
+import values.Position;
 import units.player.Player;
 import util.UnitFactory;
 

@@ -6,6 +6,7 @@ import units.enemy.Enemy;
 import units.enemy.Monster;
 import units.enemy.Trap;
 import units.player.*;
+import values.Position;
 
 import java.util.*;
 import java.util.function.Function;

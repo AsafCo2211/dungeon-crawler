@@ -1,7 +1,7 @@
 package units.player;
 
 import game.GameManager;
-import tiles.Position;
+import values.Position;
 import units.enemy.Enemy;
 
 public final class Hunter extends Player {

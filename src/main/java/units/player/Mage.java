@@ -2,7 +2,7 @@ package units.player;
 
 import abilities.Blizzard;
 import game.GameManager;
-import tiles.Position;
+import values.Position;
 import values.Mana;
 
 public final class Mage extends Player implements ManaUser {
@@ -15,7 +15,7 @@ public final class Mage extends Player implements ManaUser {
         this.mana = new Mana(manaPool);
         this.spellPower = spellPower;
 
-        setAbility(new Blizzard(manaCost, hits, range, 0, GameManager.I()::msg));
+        setAbility(new Blizzard(manaCost, hits, range, GameManager.I()::msg));
     }
 
     @Override public Mana getMana() { return mana; }

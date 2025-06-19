@@ -1,7 +1,7 @@
 package units.enemy;
 
 import game.GameManager;
-import tiles.Position;
+import values.Position;
 import units.HeroicUnit;
 
 public class Boss extends Enemy implements HeroicUnit {

@@ -9,6 +9,8 @@ public final class DeterministicGenerator implements ValueGenerator {
 
     @Override
     public int roll(int min, int max) {
+        if (seq.length == 0)
+            throw new IllegalStateException("DeterministicGenerator initialized with empty sequence.");
         return seq[idx++ % seq.length];
     }
 }

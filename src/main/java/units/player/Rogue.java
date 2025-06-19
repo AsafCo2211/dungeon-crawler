@@ -2,7 +2,7 @@ package units.player;
 
 import abilities.FanOfKnives;
 import game.GameManager;
-import tiles.Position;
+import values.Position;
 import values.Mana;   // reused as Energy
 
 public final class Rogue extends Player  {
@@ -14,7 +14,7 @@ public final class Rogue extends Player  {
         super(n, sym, pos, hp, atk, def);
         this.energy = new Mana(MAX_ENERGY);
 
-        setAbility(new FanOfKnives(cost, 0, GameManager.I()::msg));
+        setAbility(new FanOfKnives(cost, GameManager.I()::msg));
     }
 
     public Mana getEnergy() { return energy; }

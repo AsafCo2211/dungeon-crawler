@@ -9,10 +9,9 @@ public final class FanOfKnives extends Ability {
 
     private final int cost;
 
-    public FanOfKnives(int cost, int cd, MessageCallback cb) {
+    public FanOfKnives(int cost, MessageCallback cb) {
         super("Fan of Knives", cb);
         this.cost = cost;
-        this.cooldownMax = cd;
     }
 
     @Override

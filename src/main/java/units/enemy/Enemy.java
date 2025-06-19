@@ -1,8 +1,7 @@
 package units.enemy;
 
 import game.GameManager;
-import tiles.Empty;
-import tiles.Position;
+import values.Position;
 import tiles.TileVisitor;
 import units.Unit;
 import units.player.Player;

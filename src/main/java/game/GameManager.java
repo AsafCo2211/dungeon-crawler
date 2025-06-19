@@ -2,7 +2,7 @@ package game;
 
 import tiles.Empty;
 import tiles.Tile;
-import tiles.Position;
+import values.Position;
 import units.enemy.Enemy;
 import units.Unit;
 import units.player.Player;
@@ -10,7 +10,6 @@ import units.player.Player;
 import game.callbacks.MessageCallback;
 import game.callbacks.DeathCallback;
 import game.generator.ValueGenerator;
-import game.generator.RandomGenerator;
 
 import java.util.*;
 

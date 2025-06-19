@@ -1,5 +1,7 @@
 package tiles;
 
+import values.Position;
+
 public abstract class Tile {
     protected Position pos;
     protected char tileChar;

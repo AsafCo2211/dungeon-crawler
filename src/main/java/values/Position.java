@@ -1,4 +1,4 @@
-package tiles;
+package values;
 
 public final class Position {
     private final int x, y;

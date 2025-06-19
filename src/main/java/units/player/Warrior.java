@@ -2,7 +2,7 @@ package units.player;
 
 import abilities.AvengersShield;
 import game.GameManager;
-import tiles.Position;
+import values.Position;
 
 public final class Warrior extends Player {
 
