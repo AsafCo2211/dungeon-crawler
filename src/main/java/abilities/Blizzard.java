@@ -40,7 +40,8 @@ public final class Blizzard extends Ability implements IPlayerVisitor {
             if (pool.isEmpty()) break;
 
             Enemy e = pool.get(ThreadLocalRandom.current().nextInt(pool.size()));
-            int dmg = m.getSpellPower(); // Safely access getSpellPower()
+
+            int dmg = m.getSpellPower();
             int def = e.rollDefense();
             int taken = Math.max(0, dmg - def);
             e.takeTrueDamage(taken);
