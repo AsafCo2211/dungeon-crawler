@@ -18,6 +18,5 @@ public final class Position {
     @Override public boolean equals(Object o) {
         return o instanceof Position p && p.x == x && p.y == y;
     }
-    @Override public int hashCode() { return 31 * x + y; }
     @Override public String toString() { return "(" + x + "," + y + ")"; }
 }

@@ -15,7 +15,6 @@ C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\firs
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\game\generator\RandomGenerator.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\game\generator\ValueGenerator.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\tiles\Empty.java
-C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\tiles\Position.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\tiles\Tile.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\tiles\TileVisitor.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\tiles\Wall.java
@@ -25,14 +24,16 @@ C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\firs
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\enemy\Trap.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\HeroicUnit.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\player\Hunter.java
+C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\player\IPlayerVisitor.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\player\Mage.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\player\ManaUser.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\player\Player.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\player\Rogue.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\player\Warrior.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\Unit.java
+C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\units\UnitVisitor.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\util\UnitFactory.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\values\Experience.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\values\Health.java
 C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\values\Mana.java
-C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\values\Movement.java
+C:\Users\harel\OneDrive - post.bgu.ac.il\שולחן העבודה\university\first_year\semester_2\OOP\Assignment3\solution\my\DungeonsAndDragons-OOP\src\main\java\values\Position.java
