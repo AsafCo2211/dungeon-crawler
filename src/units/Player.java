@@ -1,45 +1,28 @@
 package units;
 
-import tiles.Position;
-
 public abstract class Player extends Unit {
-    protected int experience;
-    protected int level;
+    protected int experience, level;
 
-    public Player(char tile, Position position, String name, int healthPool, int attack, int defense) {
-        super(tile, position, name, healthPool, attack, defense);
+    public Player(String name, int hp, int att, int def) {
+        super(name, hp, att, def);
         this.experience = 0;
         this.level = 1;
     }
 
-    public void gainExperience(int amount) {
-        experience += amount;
-        while (experience >= 50 * level) {
-            levelUp();
-        }
+    public void gainExperience(int xp) {
+        experience += xp;
+        while (experience >= 50 * level) levelUp();
     }
 
     protected void levelUp() {
         experience -= 50 * level;
         level++;
-        setHealthPool(getHealthPool() + (10 * level));
-        setCurrentHealth(getHealthPool());
+        healthPool += 10 * level;
+        healthAmount = healthPool;
         attack += 4 * level;
-        defense += level;
+        defense += 1 * level;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    @Override
-    public String description() {
-        return String.format("%s\tLevel: %d\tExperience: %d/%d",
-                super.description(), level, experience, 50 * level);
-    }
-
+    public abstract void onGameTick();
+    public abstract void castAbility();
 }
