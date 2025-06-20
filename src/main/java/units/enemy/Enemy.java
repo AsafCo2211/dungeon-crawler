@@ -50,5 +50,30 @@ public abstract class Enemy extends Unit {
         p.takeTrueDamage(dmg);
     }
 
+    public Position calcNextStepToward(Position playerPos) {
+        GameManager gm = GameManager.I();
+
+        int dist = distanceTo(playerPos);
+        Position next;
+
+        if (dist <= visionRange) {
+            int dx = Integer.compare(playerPos.getX(), pos.getX());
+            int dy = Integer.compare(playerPos.getY(), pos.getY());
+
+            next = pos.translate(Math.abs(dx) > Math.abs(dy) ? dx : 0, Math.abs(dy) >= Math.abs(dx) ? dy : 0);
+        }
+        else {
+            int dir = gm.roll(0, 4);
+            next = switch (dir) {
+                case 0 -> pos.translate( 1, 0);
+                case 1 -> pos.translate(-1, 0);
+                case 2 -> pos.translate( 0, 1);
+                case 3 -> pos.translate( 0,-1);
+                default -> pos;
+            };
+        }
+        return next;
+    }
+
     public void act() { }
 }

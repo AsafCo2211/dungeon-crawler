@@ -1,6 +1,7 @@
 package units.enemy;
 
 import game.GameManager;
+import units.player.Player;
 import values.Position;
 import units.HeroicUnit;
 
@@ -17,7 +18,7 @@ public class Boss extends Enemy implements HeroicUnit {
     @Override
     public void act() {
         GameManager gm = GameManager.I();
-        var player = gm.getPlayer();
+        Player player = gm.getPlayer();
         if (player == null || player.getHealth().isDead())
             return;
 
@@ -27,30 +28,13 @@ public class Boss extends Enemy implements HeroicUnit {
             if (combatTicks == abilityFreq) {
                 combatTicks = 0;
                 castAbility();
+                return;
             } else combatTicks++;
         } else {
             combatTicks = 0;
         }
 
-        if (dist <= visionRange) {
-            int dx = Integer.compare(player.getPosition().getX(), pos.getX());
-            int dy = Integer.compare(player.getPosition().getY(), pos.getY());
-
-            Position next = pos.translate(Math.abs(dx) > Math.abs(dy) ? dx : 0, Math.abs(dy) >= Math.abs(dx) ? dy : 0);
-
-            gm.getBoardController().move(this, next);
-            return;
-        }
-
-        int dir = gm.roll(0, 4);
-        Position next = switch (dir) {
-            case 0 -> pos.translate( 1, 0);
-            case 1 -> pos.translate(-1, 0);
-            case 2 -> pos.translate( 0, 1);
-            case 3 -> pos.translate( 0, -1);
-            default -> pos;
-        };
-        gm.getBoardController().move(this, next);
+        gm.getBoardController().move(this, calcNextStepToward(player.getPosition()));
     }
 
     @Override
