@@ -1,7 +1,0 @@
-tests\WithGameManager.class
-tests\EnemyTest.class
-tests\PlayerTest.class
-tests\values_tests\HealthTest.class
-tests\UnitTest.class
-tests\values_tests\ExperienceTest.class
-tests\values_tests\ManaTest.class
