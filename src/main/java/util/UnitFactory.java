@@ -44,7 +44,7 @@ public final class UnitFactory {
     private static final Map<Character, Function<Position, Enemy>> ENEMIES =
             Map.ofEntries(
                     entry('s', p -> new Monster("Lannister Soldier", 's', p, 80, 8, 3, 3, 25)),
-                    entry('k', p -> new Monster("Lannister Knight", 'k', p, 50, 14, 8, 4, 50)),
+                    entry('k', p -> new Monster("Lannister Knight", 'k', p, 200, 14, 8, 4, 50)),
                     entry('q', p -> new Monster("Queen's Guard", 'q', p, 400, 20, 15, 5, 100)),
 
                     entry('z', p -> new Monster("Wright", 'z', p, 600, 30, 15, 3, 100)),

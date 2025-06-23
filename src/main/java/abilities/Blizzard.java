@@ -44,9 +44,8 @@ public final class Blizzard extends Ability implements IPlayerVisitor {
             int dmg = m.getSpellPower();
             int def = e.rollDefense();
             int taken = Math.max(0, dmg - def);
-            e.takeTrueDamage(taken);
-
             GameManager.I().msg(m.getName() + " have " + dmg + " spell power; " + e.getName() + " rolled " + def + " defence; " + m.getName() + " dealt " + taken);
+            e.takeTrueDamage(taken);
 
             hitCnt++;
         }
