@@ -10,7 +10,6 @@ import util.UnitFactory;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public final class Game {
 
@@ -21,11 +20,13 @@ public final class Game {
         }
 
         Map<Character, Action> keys = InputProvider.promptForMapping();
+        if (keys == null) return;   // input ended during setup
         InputProvider input = new InputProvider(keys);
 
         GameManager.create(new RandomGenerator()).setCallbacks(System.out::println, u -> System.out.println("\n" + u.getName() + " died" + "\n"));
 
         int heroIdx = promptHero();
+        if (heroIdx < 0) return;    // input ended during hero selection
         LevelManager lm = new LevelManager(Path.of(args[0]), heroIdx);
         if (!lm.loadNextLevel()) {
             System.err.println("No levels found.");
@@ -82,11 +83,12 @@ public final class Game {
             System.out.println();
         }
 
-        Scanner sc = new Scanner(System.in);
         int idx;
         while (true) {
             System.out.print("\nyour choice (1-" + list.size() + "): ");
-            try { idx = Integer.parseInt(sc.nextLine()) - 1; }
+            String line = InputProvider.readLine();
+            if (line == null) return -1;
+            try { idx = Integer.parseInt(line.trim()) - 1; }
             catch (NumberFormatException e) { continue; }
             if (idx >= 0 && idx < list.size()) break;
         }
