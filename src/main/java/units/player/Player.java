@@ -72,8 +72,10 @@ public abstract class Player extends Unit implements HeroicUnit {
         e.takeTrueDamage(dmg);
 
         if (e.getHealth().isDead()) {
+            // The kill's experience is awarded by GameManager's death handler
+            // (reached through takeTrueDamage); awarding it here too counted
+            // every melee kill twice.
             Position formerEnemyPos = e.getPosition();
-            this.gainXP(e.getExpValue());
             Tile newTile = GameManager.I().tileAt(formerEnemyPos);
             newTile.accept(this);
         }
