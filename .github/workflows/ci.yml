@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Test and package
+        run: mvn -B package
+
+      # Plays a scripted game through the packaged jar: key setup, hero
+      # choice, a few moves, then end of input. Must exit cleanly.
+      - name: Scripted play-through
+        run: |
+          { printf 'w\ns\na\nd\ne\nq\nx\n1\n'; for m in d d d s w w w; do echo $m; done; } \
+            | java -jar target/dungeon-crawler-*-uber-jar-with-sources-and-tests.jar levels > play.txt
+          grep -q "ENJOY!" play.txt
+          test "$(grep -c 'your turn' play.txt)" -ge 8   # every move was read
+          ! grep -q "Exception" play.txt
