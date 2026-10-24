@@ -2,6 +2,7 @@ package cli;
 
 import cli.InputProvider.Action;
 import game.GameManager;
+import game.callbacks.DeathCallback;
 import game.generator.RandomGenerator;
 import values.Position;
 import units.player.Player;
@@ -23,7 +24,10 @@ public final class Game {
         if (keys == null) return;   // input ended during setup
         InputProvider input = new InputProvider(keys);
 
-        GameManager.create(new RandomGenerator()).setCallbacks(System.out::println, u -> System.out.println("\n" + u.getName() + " died" + "\n"));
+        // Deaths are already reported in the round log ("... was defeated."), in
+        // order with the battle that caused them; printing here as well put a
+        // duplicate "died" line before the battle.
+        GameManager.create(new RandomGenerator()).setCallbacks(System.out::println, DeathCallback.ignore());
 
         int heroIdx = promptHero();
         if (heroIdx < 0) return;    // input ended during hero selection
@@ -115,9 +119,11 @@ public final class Game {
 
     private static void render(String hdr) {
         if (hdr != null) System.out.println(hdr);
+        // What happened this round first, then the board it led to — so the
+        // stats under the board already reflect the battles printed above it.
+        System.out.print(GameManager.I().flushRoundMessages());
         printBoard();
         System.out.println(GameManager.I().getPlayer().description());
-        System.out.print(GameManager.I().flushRoundMessages());
         System.out.println();
     }
 

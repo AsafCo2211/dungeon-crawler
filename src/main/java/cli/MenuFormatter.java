@@ -37,7 +37,7 @@ public final class MenuFormatter {
     private static final int W_IDX   = 2;
     private static final int W_NAME  = 17;
     private static final int W_STAT  = 17;
-    private static final int W_LEVEL = 8;
+    private static final int W_LEVEL = 11;
     private static final int W_XP    = 22;
     private static final int W_TAIL_A = 24;
 
